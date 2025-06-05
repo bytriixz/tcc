@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Educacional</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .chat-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    .chat-box {
+      min-height: 200px;
+      margin-bottom: 20px;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .bot {
+      background: #e0e0e0;
+      text-align: left;
+    }
+    .user {
+      background: #cce5ff;
+      text-align: right;
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .buttons button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .buttons button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div id="chat" class="chat-box"></div>
+    <div class="buttons" id="buttons"></div>
+  </div>
+
+  <script>
+    // Função para adicionar mensagens no chat
+    function addMessage(text, sender = 'bot') {
+      const chat = document.getElementById('chat');
+      const msg = document.createElement('div');
+      msg.classList.add('message', sender);
+      msg.textContent = text;
+      chat.appendChild(msg);
+    }
+
+    // Função para criar os botões de matéria
+    function showSubjectButtons() {
+      const buttonsContainer = document.getElementById('buttons');
+      const subjects = ['Matemática', 'Português', 'História', 'Geografia', 'Ciências'];
+
+      subjects.forEach(subject => {
+        const btn = document.createElement('button');
+        btn.textContent = subject;
+        btn.onclick = () => {
+          addMessage(`Quero estudar ${subject}.`, 'user');
+          addMessage(`Ótimo! Vamos começar com ${subject}.`, 'bot');
+        };
+        buttonsContainer.appendChild(btn);
+      });
+    }
+
+    // Mensagem inicial do bot
+    window.onload = () => {
+      addMessage('Olá! Bem-vindo ao seu assistente de estudos!');
+      setTimeout(() => {
+        addMessage('Escolha uma matéria para começar:');
+        showSubjectButtons();
+      }, 1000);
+    };
+  </script>
+</body>
+</html>

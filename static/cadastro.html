@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+            body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4; /* Cor de fundo opcional */
+        }
+
+            .container {
+            display: flex;
+            width: 800px; /* Largura total do container */
+            height: 500px; /* Altura total do container, igual à página de login */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden; /* Para garantir que os cantos arredondados funcionem e o conteúdo seja cortado se exceder */
+        }
+
+        .logo-section {
+            flex: 1; /* Ocupa metade do espaço */
+            background-color: #ffff; /* Cor de fundo para a seção do logo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo-section img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .form-section { /* Renomeado de .login-section */
+            flex: 1; /* Ocupa a outra metade do espaço */
+            background-color: #4dcfe1; /* Cor de fundo para a seção de formulário */
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-section h2 { /* Renomeado de .login-section h2 */
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px; /* Reduzido para acomodar mais campos */
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Para incluir padding e border na largura total */
+        }
+
+        .submit-button { /* Renomeado de .login-button */
+            width: 100%;
+            padding: 12px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px; /* Adicionado espaçamento superior */
+        }
+
+        .submit-button:hover { /* Renomeado de .login-button:hover */
+            background-color: #466265;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: white; /* Alterado para melhor contraste no fundo #4dcfe1 */
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividade básica */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 90%;
+                height: auto; /* Mantém altura automática para mobile para melhor adaptação */
+            }
+            .logo-section, .form-section { /* Renomeado de .login-section */
+                flex: none; /* Remove a divisão flex */
+                width: 100%;
+            }
+            .logo-section {
+                padding: 30px 20px; /* Ajusta o padding para telas menores */
+                min-height: 200px; /* Altura mínima para o logo */
+            }
+            .form-section { /* Renomeado de .login-section */
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <!-- Substitua 'logo.png' pelo caminho da sua imagem de logo -->
+            <!-- Você pode usar um SVG, texto ou qualquer outro elemento aqui também -->
+            <img src="/images/logo.png" alt="Logo da Empresa">
+        </div>
+        <div class="form-section"> <!-- Classe renomeada -->
+            <h2>Criar Conta</h2> <!-- Texto alterado -->
+            <form action="/cadastro" method="POST"> <!-- Action alterado para endpoint de cadastro -->
+                <div class="input-group">
+                    <label for="fullname">Nome Completo:</label>
+                    <input type="text" id="fullname" name="fullname" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirm_password">Confirmar Senha:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="submit-button">Criar Conta</button> <!-- Classe e texto alterados -->
+                <div class="links">
+                    <a href="login.html">Já tem uma conta? Entrar</a> <!-- Link alterado -->
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
