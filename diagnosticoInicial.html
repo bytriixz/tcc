@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Diagnóstico de Aprendizado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+    }
+    form, #relatorio {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      margin-top: 15px;
+      display: block;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #relatorio {
+      display: none;
+    }
+    .dificuldade { color: red; }
+    .facilidade { color: green; }
+  </style>
+</head>
+<body>
+
+  <form id="form-diagnostico">
+    <h2>Diagnóstico de Aprendizado</h2>
+
+    <label for="nome">Nome do Aluno:</label>
+    <input type="text" id="nome" required>
+
+    <h3>Matemática</h3>
+    <label for="operacoes">Operações básicas (soma, subtração, multiplicação, divisão):</label>
+    <select id="operacoes">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <label for="problemas">Resolução de problemas matemáticos:</label>
+    <select id="problemas">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <h3>Português</h3>
+    <label for="leitura">Leitura e interpretação de texto:</label>
+    <select id="leitura">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <label for="gramatica">Gramática e ortografia:</label>
+    <select id="gramatica">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <h3>Ciências</h3>
+    <label for="corpo_humano">Conhecimento sobre o corpo humano:</label>
+    <select id="corpo_humano">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <label for="ambiente">Ciências ambientais e natureza:</label>
+    <select id="ambiente">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <h3>História</h3>
+    <label for="brasil_colonia">História do Brasil Colônia:</label>
+    <select id="brasil_colonia">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <h3>Geografia</h3>
+    <label for="mapas">Leitura de mapas e localização:</label>
+    <select id="mapas">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <h3>Inglês</h3>
+    <label for="ingles_basico">Vocabulário e frases básicas:</label>
+    <select id="ingles_basico">
+      <option value="muita_dificuldade">Muita dificuldade</option>
+      <option value="alguma_dificuldade">Alguma dificuldade</option>
+      <option value="neutro">Neutro</option>
+      <option value="facilidade">Facilidade</option>
+      <option value="muita_facilidade">Muita facilidade</option>
+    </select>
+
+    <label for="observacoes">Observações adicionais:</label>
+    <textarea id="observacoes" rows="4"></textarea>
+
+    <button type="submit">Gerar Relatório</button>
+  </form>
+
+  <div id="relatorio">
+    <h2>Relatório de Diagnóstico</h2>
+    <p id="resumo-nome"></p>
+    <ul id="resumo-diagnostico"></ul>
+    <p><strong>Observações:</strong> <span id="resumo-observacoes"></span></p>
+  </div>
+
+  <script>
+    const campos = [
+      { id: "operacoes", nome: "Operações matemáticas" },
+      { id: "problemas", nome: "Resolução de problemas" },
+      { id: "leitura", nome: "Leitura e interpretação" },
+      { id: "gramatica", nome: "Gramática e ortografia" },
+      { id: "corpo_humano", nome: "Corpo humano" },
+      { id: "ambiente", nome: "Ciências ambientais" },
+      { id: "brasil_colonia", nome: "História do Brasil Colônia" },
+      { id: "mapas", nome: "Leitura de mapas" },
+      { id: "ingles_basico", nome: "Vocabulário em inglês" }
+    ];
+
+    const textos = {
+      muita_dificuldade: "tem MUITA dificuldade",
+      alguma_dificuldade: "tem ALGUMA dificuldade",
+      neutro: "se sente NEUTRO",
+      facilidade: "tem FACILIDADE",
+      muita_facilidade: "tem MUITA facilidade"
+    };
+
+    document.getElementById("form-diagnostico").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value;
+      const observacoes = document.getElementById("observacoes").value;
+      const lista = document.getElementById("resumo-diagnostico");
+      lista.innerHTML = "";
+
+      campos.forEach(campo => {
+        const valor = document.getElementById(campo.id).value;
+        const li = document.createElement("li");
+        const classe = valor.includes("dificuldade") ? "dificuldade" : valor.includes("facilidade") ? "facilidade" : "";
+        li.innerHTML = `<strong>${campo.nome}</strong>: <span class="${classe}">${textos[valor]}</span>`;
+        lista.appendChild(li);
+      });
+
+      document.getElementById("resumo-nome").textContent = `Aluno(a): ${nome}`;
+      document.getElementById("resumo-observacoes").textContent = observacoes || "Nenhuma observação.";
+      document.getElementById("relatorio").style.display = "block";
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+  </script>
+
+</body>
+</html>
