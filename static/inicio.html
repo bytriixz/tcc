@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial - Chatbot</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        header {
+            background: #4dcfe1;
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: #fff;
+            text-align: center;
+            padding: 60px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: black;
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #466265;
+        }
+
+        .features {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .features h3 {
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
+
+        .feature-item h4 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        /* Estilo para links dentro dos cards de funcionalidade */
+        .feature-item a {
+            color: #4dcfe1; /* Cor do link, combinando com o header */
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>LabTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>Converse com o Futuro</h2>
+            <p>Nosso chatbot inteligente está pronto para ajudar você com respostas rápidas e precisas, 24 horas por dia.</p>
+            <a href="chatbot.html" class="cta-button">Começar a Conversar</a>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h3>Funcionalidades Principais</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>Disponibilidade 24/7</h4>
+                        <p>Acesse a qualquer hora, de qualquer lugar. Estamos sempre online para você.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Respostas Instantâneas</h4>
+                        <p>Obtenha as informações que precisa sem espera. Rápido e eficiente.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Fácil de Usar</h4>
+                        <p>Uma interface amigável e intuitiva para uma experiência de conversa natural.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Plataforma Educacional</h4>
+                        <p>Acesse conteúdos de aprendizado personalizados e aprimore seus conhecimentos.</p>
+                        <a href="aprendizado.html">Acessar Plataforma</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Meu Chatbot. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

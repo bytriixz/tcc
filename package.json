@@ -1,5 +1,25 @@
 {
+  "name": "tcc-gemini-chatbot",
+  "version": "1.0.0",
+  "type": "commonjs",
   "dependencies": {
     "@google/genai": "^1.5.0"
-  }
+  },
+  "main": "script.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "chatbotteste.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bytriixz/tcc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bytriixz/tcc/issues"
+  },
+  "homepage": "https://github.com/bytriixz/tcc#readme",
+  "description": ""
 }
