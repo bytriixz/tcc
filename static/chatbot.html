@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Chatbot Educacional</title>
+  <!-- IMPORTANTE: Inclua o SDK do Google Generative AI -->
+  <script src="https://unpkg.com/@google/generative-ai/dist/generative-ai.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -21,12 +23,17 @@
     }
     .chat-box {
       min-height: 200px;
+      max-height: 400px; /* Adicionado para evitar que o chat fique muito longo */
+      overflow-y: auto; /* Adicionado para scroll quando o conteúdo exceder a altura */
       margin-bottom: 20px;
+      border: 1px solid #ddd; /* Adicionada uma borda sutil */
+      padding: 10px; /* Adicionado padding interno */
     }
     .message {
       margin: 10px 0;
       padding: 10px;
       border-radius: 5px;
+      white-space: pre-wrap; /* Para preservar quebras de linha e espaços */
     }
     .bot {
       background: #e0e0e0;
@@ -42,7 +49,8 @@
       gap: 10px;
     }
     .buttons button {
-      flex: 1;
+      flex: 1 1 calc(33.333% - 10px); /* Ajuste para melhor responsividade dos botões */
+      min-width: 100px; /* Largura mínima para os botões */
       padding: 10px;
       border: none;
       border-radius: 5px;
@@ -54,12 +62,39 @@
     .buttons button:hover {
       background: #0056b3;
     }
+    .input-container {
+      display: flex;
+      margin-top: 20px;
+      gap: 10px;
+    }
+    .input-container input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .input-container button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background: #28a745; /* Cor verde para o botão de enviar */
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .input-container button:hover {
+      background: #218838;
+    }
   </style>
 </head>
 <body>
   <div class="chat-container">
     <div id="chat" class="chat-box"></div>
     <div class="buttons" id="buttons"></div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Digite sua mensagem aqui...">
+      <button id="sendButton">Enviar</button>
+    </div>
   </div>
 
   <script>
@@ -70,11 +105,144 @@
       msg.classList.add('message', sender);
       msg.textContent = text;
       chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight; // Auto-scroll para a última mensagem
     }
+
+    // Função para lidar com a entrada do usuário
+    function handleUserInput() {
+      const userInputField = document.getElementById('userInput');
+      const userText = userInputField.value.trim();
+      if (userText === "") return; // Não envia mensagem vazia
+
+      addMessage(userText, 'user');
+      userInputField.value = ''; // Limpa o campo de entrada
+
+      // Lógica para processar a entrada do usuário e chamar a API Gemini
+      setTimeout(async () => {
+        addMessage("Processando sua pergunta...", 'bot');
+        try {
+          const prompt = `O usuário perguntou: "${userText}". Responda de forma concisa e útil para um estudante.`;
+          const geminiResponse = await callGeminiAPI(prompt);
+          addMessage(geminiResponse, 'bot');
+        } catch (error) {
+          console.error('Erro ao processar pergunta do usuário:', error);
+          addMessage(`Desculpe, não consegui processar sua pergunta no momento. Detalhe: ${error.message}`, 'bot');
+        }
+      }, 500);
+    }
+
+    // Função para chamada da API Gemini usando o SDK @google/generative-ai
+    async function callGeminiAPI(prompt) {
+      const API_KEY = "AIzaSyBD4ENwPf3VEHcRuNFcSE7ikkgxofETg5Y"; // ATENÇÃO: Substitua pela sua chave real!
+      const modelName = "gemini-1.5-flash-latest"; // Ou "gemini-pro", "gemini-2.0-flash", etc. Verifique a disponibilidade.
+
+      // Garante que o SDK GoogleGenerativeAI está carregado (do script CDN)
+      if (typeof GoogleGenerativeAI === "undefined") {
+        console.error("GoogleGenerativeAI SDK não carregado. Por favor, inclua-o via uma tag <script> no <head>.");
+        throw new Error("SDK não carregado. Verifique o console para detalhes.");
+      }
+
+      const genAI = new GoogleGenerativeAI(API_KEY);
+      const model = genAI.getGenerativeModel({ model: modelName });
+
+      console.log(`Enviando para Gemini API (SDK ${modelName}): "${prompt}"`);
+
+      try {
+        const result = await model.generateContent(prompt);
+        const response = result.response;
+        const text = response.text();
+
+        if (text) {
+          return text;
+        } else if (response.promptFeedback && response.promptFeedback.blockReason) {
+            console.warn('Prompt bloqueado pela API Gemini (SDK):', response.promptFeedback);
+            return `Sua pergunta não pôde ser processada devido a restrições de conteúdo (${response.promptFeedback.blockReason}). Por favor, tente reformular.`;
+        } else {
+          // Fallback se text() estiver vazio mas houver candidatos (improvável com text())
+          if (response.candidates && response.candidates.length > 0 &&
+              response.candidates[0].content && response.candidates[0].content.parts &&
+              response.candidates[0].content.parts.length > 0 && response.candidates[0].content.parts[0].text) {
+            return response.candidates[0].content.parts[0].text;
+          }
+          console.error('Resposta inesperada da API Gemini (SDK):', response);
+          throw new Error('Não foi possível extrair o conteúdo da resposta da API (SDK).');
+        }
+      } catch (error) {
+        console.error('Erro ao chamar a API Gemini (SDK):', error);
+        let errorMessage = error.message || "Erro desconhecido ao contatar o assistente.";
+        if (error.message && error.message.includes("API key not valid")) {
+            errorMessage = "Chave de API inválida ou não configurada corretamente.";
+        } else if (error.message && error.message.toLowerCase().includes("quota")) {
+            errorMessage = "Cota da API excedida. Tente novamente mais tarde.";
+        } else if (error.message && error.message.toLowerCase().includes("model") && error.message.toLowerCase().includes("not found")) {
+            errorMessage = `Modelo "${modelName}" não encontrado ou não acessível com sua chave.`;
+        }
+        throw new Error(errorMessage);
+      }
+    }
+
+    // Função para buscar conteúdo da API Gemini e exibir
+    async function fetchAndDisplayContent(subject) {
+      const buttonsContainer = document.getElementById('buttons');
+      buttonsContainer.innerHTML = ''; // Limpa os botões de matéria
+
+      addMessage(`Ok, buscando informações sobre ${subject}...`, 'bot');
+      document.getElementById('userInput').disabled = true; // Desabilita input durante busca
+      document.getElementById('sendButton').disabled = true;
+
+      const prompt = `Gere um conteúdo introdutório conciso e informativo sobre ${subject} para um estudante do ensino fundamental/médio. Inclua os principais tópicos ou áreas de estudo dentro de ${subject}.`;
+      try {
+        const geminiResponse = await callGeminiAPI(prompt);
+        addMessage(geminiResponse, 'bot');
+        showMainMenuButton();
+        document.getElementById('userInput').disabled = false; // Habilita input após carregar
+        document.getElementById('sendButton').disabled = false;
+        document.getElementById('userInput').placeholder = `Pergunte sobre ${subject} ou digite sua mensagem...`;
+      } catch (error) {
+        console.error('Erro ao chamar a API Gemini para conteúdo:', error);
+        addMessage(`Desculpe, ocorreu um erro ao buscar o conteúdo sobre ${subject}. Detalhe: ${error.message}`, 'bot');
+        showMainMenuButton(); // Oferece opção de voltar mesmo em caso de erro
+      }
+    }
+
+    // Função para mostrar o botão de voltar ao menu principal
+    function showMainMenuButton() {
+        const buttonsContainer = document.getElementById('buttons');
+        buttonsContainer.innerHTML = ''; // Limpa botões anteriores
+
+        const userInputField = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        const btn = document.createElement('button');
+        btn.textContent = 'Escolher outra matéria';
+        btn.onclick = () => {
+            addMessage('Quero escolher outra matéria.', 'user');
+            addMessage('Certo! Escolha uma nova matéria para começar:');
+            showSubjectButtons();
+        };
+        buttonsContainer.appendChild(btn);
+
+        // Input permanece habilitado, mas placeholder é resetado
+        userInputField.placeholder = "Digite sua mensagem aqui...";
+        userInputField.disabled = false;
+        sendButton.disabled = false;
+    }
+
 
     // Função para criar os botões de matéria
     function showSubjectButtons() {
       const buttonsContainer = document.getElementById('buttons');
+      buttonsContainer.innerHTML = ''; // Limpa botões anteriores, se houver
+
+      const userInputField = document.getElementById('userInput');
+      const sendButton = document.getElementById('sendButton');
+
+      // Desabilita o input do usuário enquanto escolhe a matéria
+      userInputField.value = '';
+      userInputField.placeholder = "Escolha uma matéria acima...";
+      userInputField.disabled = true;
+      sendButton.disabled = true;
+
       const subjects = ['Matemática', 'Português', 'História', 'Geografia', 'Ciências'];
 
       subjects.forEach(subject => {
@@ -82,7 +250,7 @@
         btn.textContent = subject;
         btn.onclick = () => {
           addMessage(`Quero estudar ${subject}.`, 'user');
-          addMessage(`Ótimo! Vamos começar com ${subject}.`, 'bot');
+          fetchAndDisplayContent(subject);
         };
         buttonsContainer.appendChild(btn);
       });
@@ -90,11 +258,23 @@
 
     // Mensagem inicial do bot
     window.onload = () => {
+      const userInputField = document.getElementById('userInput');
+      const sendButton = document.getElementById('sendButton');
+
       addMessage('Olá! Bem-vindo ao seu assistente de estudos!');
       setTimeout(() => {
         addMessage('Escolha uma matéria para começar:');
-        showSubjectButtons();
+        showSubjectButtons(); // Isso já desabilitará o input inicialmente
       }, 1000);
+
+      // Event listener para o botão de enviar
+      sendButton.addEventListener('click', handleUserInput);
+      // Event listener para a tecla Enter no campo de input
+      userInputField.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter' && !userInputField.disabled) { // Verifica se o input está habilitado
+          handleUserInput();
+        }
+      });
     };
   </script>
 </body>
