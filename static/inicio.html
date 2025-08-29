@@ -12,6 +12,7 @@
             background-color: #f4f4f9;
             color: #333;
             line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
         }
 
         .container {
@@ -54,6 +55,17 @@
             color: #fff;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            background: #fff;
+            color: #4dcfe1;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s, color 0.3s;
         }
 
         .hero {
@@ -126,11 +138,43 @@
             margin-top: 40px;
         }
 
-        /* Estilo para links dentro dos cards de funcionalidade */
         .feature-item a {
-            color: #4dcfe1; /* Cor do link, combinando com o header */
+            color: #4dcfe1;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        /* ======== DARK MODE ======== */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e4e4e4;
+        }
+
+        body.dark-mode header {
+            background: #222;
+        }
+
+        body.dark-mode .hero {
+            background: #1e1e1e;
+            border-bottom: 1px solid #444;
+        }
+
+        body.dark-mode .hero h2 {
+            color: #e4e4e4;
+        }
+
+        body.dark-mode .feature-item {
+            background: #1e1e1e;
+            box-shadow: 0 0 10px rgba(255,255,255,0.05);
+        }
+
+        body.dark-mode footer {
+            background: #111;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: #4dcfe1;
+            color: #fff;
         }
     </style>
 </head>
@@ -142,6 +186,7 @@
                 <ul>
                     <li><a href="login.html">Login</a></li>
                     <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Escuro</button></li>
                 </ul>
             </nav>
         </div>
@@ -151,7 +196,7 @@
         <section class="hero">
             <h2>Converse com o Futuro</h2>
             <p>Nosso chatbot inteligente está pronto para ajudar você com respostas rápidas e precisas, 24 horas por dia.</p>
-            <a href="chatbot.html" class="cta-button">Começar a Conversar</a>
+            <a href="http://localhost:3000/index.html" class="cta-button">Começar a Conversar</a>
         </section>
 
         <section class="features">
@@ -183,5 +228,30 @@
     <footer>
         <p>&copy; 2024 Meu Chatbot. Todos os direitos reservados.</p>
     </footer>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector(".theme-toggle");
+            body.classList.toggle("dark-mode");
+
+            if (body.classList.contains("dark-mode")) {
+                button.textContent = "☀️ Modo Claro";
+                localStorage.setItem("theme", "dark");
+            } else {
+                button.textContent = "🌙 Modo Escuro";
+                localStorage.setItem("theme", "light");
+            }
+        }
+
+        // Carregar tema salvo
+        window.onload = () => {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark-mode");
+                document.querySelector(".theme-toggle").textContent = "☀️ Modo Claro";
+            }
+        };
+    </script>
 </body>
 </html>
