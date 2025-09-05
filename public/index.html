@@ -254,6 +254,10 @@
         <p>&copy; 2024 Meu Chatbot. Todos os direitos reservados.</p>
     </footer>
 
+    
+    <!-- Biblioteca Marked para Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script>
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
@@ -313,7 +317,7 @@
 
                 const botMessageDiv = document.createElement('div');
                 botMessageDiv.classList.add('message', 'bot');
-                botMessageDiv.innerHTML = `<div class="message-bubble">${botReply}</div>`;
+                botMessageDiv.innerHTML = `<div class="message-bubble">${marked.parse(botReply)}</div>`;
                 chatMessages.appendChild(botMessageDiv);
 
             } catch (error) {
