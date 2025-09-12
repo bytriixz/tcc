@@ -63,7 +63,7 @@ await sequelize.sync();
 // ============================
 
 // Cadastro
-app.post("/cadastro", async (req, res) => {
+app.post("/cadusuar", async (req, res) => {
   const { fullname, email, username, password, confirm_password } = req.body;
 
   if (password !== confirm_password) {
@@ -135,6 +135,7 @@ app.get("/usuarios", async (req, res) => {
 async function getTeachingResponse(question, revealAnswer = false) {
   const greetings = ["oi", "olá", "ola", "hey", "bom dia", "boa tarde", "boa noite"];
   const isGreeting = greetings.some(greet => question.toLowerCase().includes(greet));
+  
 
   let prompt;
   if (isGreeting) {

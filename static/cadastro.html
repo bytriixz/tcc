@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro</title>
   <style>
-    body, html {
+    body,
+    html {
       height: 100%;
       margin: 0;
       font-family: Arial, sans-serif;
@@ -116,20 +118,25 @@
         width: 90%;
         height: auto;
       }
-      .logo-section, .form-section {
+
+      .logo-section,
+      .form-section {
         flex: none;
         width: 100%;
       }
+
       .logo-section {
         padding: 30px 20px;
         min-height: 200px;
       }
+
       .form-section {
         padding: 30px;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="logo-section">
@@ -187,7 +194,7 @@
       }
 
       try {
-        const response = await fetch('/cadastro', {
+        const response = await fetch('/cadusuar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ fullname, email, username, password })
@@ -210,4 +217,5 @@
     });
   </script>
 </body>
+
 </html>

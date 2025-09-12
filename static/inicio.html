@@ -176,6 +176,21 @@
             background: #4dcfe1;
             color: #fff;
         }
+
+        /* Botão plataforma no menu */
+        .study-btn {
+            background: #fff;
+            color: #4dcfe1 !important;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .study-btn:hover {
+            background: #36a9b0;
+            color: #fff !important;
+        }
     </style>
 </head>
 <body>
@@ -186,6 +201,7 @@
                 <ul>
                     <li><a href="login.html">Login</a></li>
                     <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="aprendizado.html" class="study-btn">Plataforma de Estudo</a></li>
                     <li><button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Escuro</button></li>
                 </ul>
             </nav>
@@ -215,11 +231,7 @@
                         <h4>Fácil de Usar</h4>
                         <p>Uma interface amigável e intuitiva para uma experiência de conversa natural.</p>
                     </div>
-                    <div class="feature-item">
-                        <h4>Plataforma Educacional</h4>
-                        <p>Acesse conteúdos de aprendizado personalizados e aprimore seus conhecimentos.</p>
-                        <a href="aprendizado.html">Acessar Plataforma</a>
-                    </div>
+                    <!-- 🚫 Card da Plataforma Educacional removido -->
                 </div>
             </div>
         </section>
