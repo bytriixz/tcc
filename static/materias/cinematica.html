@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aula de Cinemática – Introdução</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+      padding-top: 100px;
+    }
+
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    .header {
+      background-color: #fff;
+      color: #333;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark-mode .header {
+      background-color: #1f1f1f;
+      color: #e0e0e0;
+      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .theme-toggle {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      background: transparent;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    body.dark-mode .theme-toggle {
+      color: #e0e0e0;
+      border-color: #555;
+      background-color: #2c2c2c;
+    }
+
+    .main-container {
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 20px 0 10px;
+      color: #333;
+      border-bottom: 2px solid #56c8e6;
+      padding-bottom: 5px;
+    }
+
+    body.dark-mode h2 {
+      color: #e0e0e0;
+      border-bottom-color: #4ab8d0;
+    }
+
+    p,
+    li {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    body.dark-mode p,
+    body.dark-mode li {
+      color: #ccc;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    code {
+      background-color: #e0e0e0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    body.dark-mode code {
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+    }
+
+    .exercise {
+      margin-bottom: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark-mode .exercise {
+      background-color: #1f1f1f;
+      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+    }
+
+    .exercise p {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f9f9f9;
+      text-align: left;
+    }
+
+    body.dark-mode .options button {
+      background: #2c2c2c;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+
+    .options button.correct {
+      background-color: #4caf50;
+      color: #fff;
+      border-color: #4caf50;
+    }
+
+    .options button.wrong {
+      background-color: #f44336;
+      color: #fff;
+      border-color: #f44336;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #56c8e6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    body.dark-mode .back-btn {
+      background-color: #4ab8d0;
+    }
+
+    .back-btn:hover {
+      background-color: #4aa3c8;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="logo">LabTech</div>
+    <button class="theme-toggle" onclick="toggleTheme()">Modo Escuro</button>
+  </header>
+
+  <div class="main-container">
+    <h1>Aula de Cinemática – Introdução</h1>
+
+    <h2>O que é Cinemática?</h2>
+    <p>A Cinemática é a parte da Física que estuda o movimento dos corpos sem se preocupar com as causas que o produzem,
+      apenas descrevendo como ele acontece.</p>
+
+    <h2>Conceitos Fundamentais</h2>
+    <ul>
+      <li><strong>Ponto material:</strong> Corpo cujas dimensões podem ser desprezadas em relação ao movimento.</li>
+      <li><strong>Trajetória:</strong> Linha descrita por um corpo em movimento.</li>
+      <li><strong>Deslocamento:</strong> Variação da posição de um corpo em relação ao tempo.</li>
+      <li><strong>Velocidade:</strong> Rapidez com que o corpo se desloca. Fórmula: <code>v = Δs / Δt</code></li>
+      <li><strong>Aceleração:</strong> Variação da velocidade no tempo. Fórmula: <code>a = Δv / Δt</code></li>
+    </ul>
+
+    <h2>Movimentos Importantes</h2>
+    <ul>
+      <li><strong>Movimento Retilíneo Uniforme (MRU):</strong> Velocidade constante. Equação: <code>s = s0 + v·t</code></li>
+      <li><strong>Movimento Retilíneo Uniformemente Variado (MRUV):</strong> Aceleração constante. Equação:
+        <code>s = s0 + v0·t + (a·t²)/2</code></li>
+    </ul>
+
+    <h2>Exemplo</h2>
+    <p>Um carro anda em MRU com velocidade de 20 m/s durante 10 s. A distância percorrida é:</p>
+    <code>s = v·t = 20 · 10 = 200 m</code>
+
+    <h2>Exercícios Interativos</h2>
+
+    <div class="exercise">
+      <p>1) Um carro percorre 100 km em 2 h. Qual a sua velocidade média?</p>
+      <div class="options">
+        <button onclick="checkAnswer(this, '50 km/h')">50 km/h</button>
+        <button onclick="checkAnswer(this, '100 km/h')">100 km/h</button>
+        <button onclick="checkAnswer(this, '25 km/h')">25 km/h</button>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <p>2) Se um corpo tem velocidade inicial de 10 m/s e atinge 30 m/s em 5 s, qual é a aceleração?</p>
+      <div class="options">
+        <button onclick="checkAnswer(this, '4 m/s²')">4 m/s²</button>
+        <button onclick="checkAnswer(this, '6 m/s²')">6 m/s²</button>
+        <button onclick="checkAnswer(this, '2 m/s²')">2 m/s²</button>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <p>3) Um corpo em MRU tem posição inicial 0 m e velocidade de 8 m/s. Qual sua posição após 15 s?</p>
+      <div class="options">
+        <button onclick="checkAnswer(this, '120 m')">120 m</button>
+        <button onclick="checkAnswer(this, '100 m')">100 m</button>
+        <button onclick="checkAnswer(this, '80 m')">80 m</button>
+      </div>
+    </div>
+
+    <a href="aprendizado.html" class="back-btn">← Voltar ao Painel</a>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const toggleBtn = document.querySelector('.theme-toggle');
+      body.classList.toggle('dark-mode');
+      toggleBtn.textContent = body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Escuro';
+      localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme');
+      const toggleBtn = document.querySelector('.theme-toggle');
+      if (savedTheme === 'dark') { document.body.classList.add('dark-mode'); toggleBtn.textContent = 'Modo Claro'; }
+    });
+
+    function checkAnswer(btn, correctAnswer) {
+      const buttons = btn.parentElement.querySelectorAll('button');
+      buttons.forEach(b => b.disabled = true);
+      if (btn.textContent === correctAnswer) btn.classList.add('correct');
+      else {
+        btn.classList.add('wrong');
+        buttons.forEach(b => { if (b.textContent === correctAnswer) b.classList.add('correct'); });
+      }
+    }
+  </script>
+</body>
+
+</html>

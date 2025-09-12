@@ -319,6 +319,7 @@
                 botMessageDiv.classList.add('message', 'bot');
                 botMessageDiv.innerHTML = `<div class="message-bubble">${marked.parse(botReply)}</div>`;
                 chatMessages.appendChild(botMessageDiv);
+                
 
             } catch (error) {
                 console.error('Erro ao enviar mensagem:', error);

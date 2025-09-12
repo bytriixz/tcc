@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Avaliação</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333; line-height: 1.6;
+      height: 100%; display: flex; flex-direction: column;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    header {
+      background: #4dcfe1; color: #fff; padding: 1rem 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    header .container {
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 1100px; margin: auto; padding: 0 20px;
+    }
+    header h1 { margin: 0; font-size: 24px; }
+    header nav ul { list-style: none; margin: 0; padding: 0; display: flex; }
+    header nav ul li { margin-left: 20px; }
+    header nav a { color: #fff; text-decoration: none; font-weight: bold; }
+    .theme-toggle {
+      background: #333; color: #fff; border: none;
+      padding: 6px 12px; border-radius: 5px; cursor: pointer;
+    }
+    main { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    .chat-container {
+      display: flex; flex-direction: column;
+      width: 100%; max-width: 800px; height: 70vh;
+      background-color: #fff; border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      overflow: hidden; transition: background-color 0.3s;
+    }
+    .chat-messages {
+      flex-grow: 1; padding: 20px; overflow-y: auto; border-bottom: 1px solid #eee;
+    }
+    .message { margin-bottom: 15px; display: flex; }
+    .message.user { justify-content: flex-end; }
+    .message.bot { justify-content: flex-start; }
+    .message-bubble {
+      max-width: 70%; padding: 10px 15px; border-radius: 20px; line-height: 1.4;
+    }
+    .message.user .message-bubble { background-color: #4dcfe1; color: white; border-bottom-right-radius: 5px; }
+    .message.bot .message-bubble { background-color: #e0e0e0; color: #333; border-bottom-left-radius: 5px; }
+    .options button {
+      margin: 5px; padding: 8px 12px; border-radius: 10px; border: none; cursor: pointer;
+      background: #4dcfe1; color: white; transition: background 0.3s;
+    }
+    .options button:hover { background: #3bb6c7; }
+    footer { text-align: center; padding: 20px; background: #333; color: #fff; }
+    /* Dark mode */
+    body.dark-mode { background-color: #1e1e1e; color: #f4f4f9; }
+    body.dark-mode .chat-container { background-color: #2c2c2c; }
+    body.dark-mode .message.bot .message-bubble { background-color: #444; color: #f4f4f9; }
+    body.dark-mode footer { background: #111; }
+    body.dark-mode .theme-toggle { background: #eee; color: #111; }
+    body.dark-mode .theme-toggle:hover { background: #ddd; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Meu Chatbot</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li><button id="theme-toggle" class="theme-toggle">🌙 Escuro</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="chat-container">
+      <div class="chat-messages" id="chat-messages"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Meu Chatbot. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const themeToggle = document.getElementById('theme-toggle');
+    let answers = {};
+
+    // Alternar tema
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const darkMode = document.body.classList.contains('dark-mode');
+      themeToggle.textContent = darkMode ? "☀️ Claro" : "🌙 Escuro";
+      localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggle.textContent = "☀️ Claro";
+    }
+
+    // Questões
+    const questions = [
+      { subject: "Português", question: "Qual a alternativa em que todas as palavras estão corretamente acentuadas?", options: ["Lapís – Pônei – Júri","Tórax – Heróico – Júpiter","Tênis – Fácil – Pôde","Heroi – Vôo – País"], correct: 2 },
+      { subject: "Português", question: "O sujeito da frase “Chovia muito ontem à noite” é:", options: ["Indeterminado","Oculto","Composto","Inexistente"], correct: 3 },
+      { subject: "Português", question: "A função da conjunção “mas” em: “Estudei bastante, mas não fui bem na prova” é:", options: ["Aditiva","Conclusiva","Adversativa","Causal"], correct: 2 },
+      { subject: "Português", question: "O gênero literário ao qual pertence a obra Dom Casmurro é:", options: ["Lírico","Épico","Dramático","Narrativo"], correct: 3 },
+
+      { subject: "Matemática", question: "O valor de 2^3 + 3^2 é:", options: ["12","13","17","25"], correct: 2 },
+      { subject: "Matemática", question: "Uma loja vendeu 120 produtos. Se 30% eram camisas, quantas camisas foram vendidas?", options: ["36","40","30","45"], correct: 0 },
+      { subject: "Matemática", question: "O valor da expressão √81 + √25 é:", options: ["11","12","13","14"], correct: 2 },
+      { subject: "Matemática", question: "Em uma sala, 60% dos 50 alunos são meninas. Quantos meninos há na sala?", options: ["20","25","30","15"], correct: 1 },
+
+      { subject: "Física", question: "A unidade de medida da força no SI é:", options: ["Joule (J)","Newton (N)","Watt (W)","Pascal (Pa)"], correct: 1 },
+      { subject: "Física", question: "Um carro percorreu 180 km em 3 horas. Qual a sua velocidade média?", options: ["30 km/h","60 km/h","90 km/h","120 km/h"], correct: 1 },
+      { subject: "Física", question: "Qual desses fenômenos está relacionado à propagação retilínea da luz?", options: ["Sombra","Refração","Difração","Interferência"], correct: 0 },
+      { subject: "Física", question: "A energia cinética de um corpo depende de:", options: ["Massa e aceleração","Massa e velocidade","Força e deslocamento","Potência e tempo"], correct: 1 },
+
+      { subject: "Química", question: "Qual é o número atômico do oxigênio (O)?", options: ["6","7","8","9"], correct: 2 },
+      { subject: "Química", question: "A fórmula química da água é:", options: ["CO₂","H₂O","O₂","CH₄"], correct: 1 },
+      { subject: "Química", question: "O pH de uma solução básica é:", options: ["Menor que 7","Igual a 7","Maior que 7","Sempre igual a 14"], correct: 2 },
+      { subject: "Química", question: "Qual dessas substâncias é um sal?", options: ["HCl","NaCl","O₂","H₂"], correct: 1 },
+
+      { subject: "Biologia", question: "A unidade estrutural e funcional dos seres vivos é:", options: ["Tecido","Órgão","Célula","Molécula"], correct: 2 },
+      { subject: "Biologia", question: "O DNA é formado por unidades chamadas:", options: ["Aminoácidos","Nucleotídeos","Polissacarídeos","Ácidos graxos"], correct: 1 },
+      { subject: "Biologia", question: "Em qual organela ocorre a respiração celular?", options: ["Núcleo","Cloroplasto","Mitocôndria","Ribossomo"], correct: 2 },
+      { subject: "Biologia", question: "A fotossíntese ocorre, principalmente, em qual estrutura?", options: ["Mitocôndria","Lisossomo","Cloroplasto","Vacúolo"], correct: 2 }
+    ];
+
+    let currentQuestion = 0;
+
+    function addMessage(text, sender="bot") {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.innerHTML = `<div class="message-bubble">${text}</div>`;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      addMessage(`<b>${q.subject}:</b> ${q.question}`);
+      const optionsDiv = document.createElement("div");
+      optionsDiv.classList.add("options");
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => selectAnswer(index, i);
+        optionsDiv.appendChild(btn);
+      });
+      chatMessages.appendChild(optionsDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function selectAnswer(qIndex, optIndex) {
+      answers[qIndex] = optIndex;
+      const userMsg = document.createElement("div");
+      userMsg.classList.add("message","user");
+      userMsg.innerHTML = `<div class="message-bubble">${questions[qIndex].options[optIndex]}</div>`;
+      chatMessages.appendChild(userMsg);
+
+      if (qIndex+1 < questions.length) {
+        setTimeout(()=>showQuestion(qIndex+1),800);
+      } else {
+        setTimeout(finishQuiz,1000);
+      }
+    }
+
+    function finishQuiz() {
+      addMessage("✅ Avaliação finalizada! Obrigado por responder ao questionário.");
+    }
+
+    // Início
+    addMessage("👋 Olá estudante! Bem-vindo ao chatbot de avaliação de nível.");
+    setTimeout(()=>addMessage("Vamos iniciar um questionário rápido de Português, Matemática, Física, Química e Biologia."), 1000);
+    setTimeout(()=>showQuestion(0), 2000);
+  </script>
+</body>
+</html>
