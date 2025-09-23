@@ -33,6 +33,12 @@ app.get('/', (req, res) => {
   res.redirect('/login.html');
 });
 
+// Serve a página do questionário quando /index.html for acessado.
+app.get('/index.html', (req, res) => {
+  // __dirname já está configurado corretamente no topo do arquivo.
+  res.sendFile(path.join(__dirname, 'public', 'questpontucao.html'));
+});
+
 // ============================
 // MIDDLEWARES
 // ============================
