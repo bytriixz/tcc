@@ -24,29 +24,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ============================
-// ROTA PRINCIPAL
-// ============================
-// Redireciona a raiz do site (/) para a página de login.
-// Esta rota precisa vir ANTES de `express.static` para ter prioridade sobre
-// um possível arquivo `index.html` na pasta `static`.
-app.get('/', (req, res) => {
-  res.redirect('/login.html');
-});
-
-// Serve a página do questionário quando /index.html for acessado.
-app.get('/index.html', (req, res) => {
-  // __dirname já está configurado corretamente no topo do arquivo.
-  res.sendFile(path.join(__dirname, 'public', 'questpontucao.html'));
-});
-
-// ============================
 // MIDDLEWARES
 // ============================
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // aceita <form>
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "static"))); // serve login.html, cadastro.html etc.
 app.use(
   session({
     secret: "segredo123",
@@ -69,10 +51,45 @@ const Usuario = sequelize.define("Usuario", {
   email: { type: DataTypes.STRING, allowNull: false, unique: true },
   username: { type: DataTypes.STRING, allowNull: false, unique: true },
   password: { type: DataTypes.STRING, allowNull: false },
+  quizCompleted: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
 });
 
 // Cria tabela se não existir
-await sequelize.sync();
+// O { alter: true } garante que a tabela no banco de dados seja atualizada
+// para corresponder ao modelo, adicionando a coluna `quizCompleted` se ela
+// não existir, sem apagar os dados existentes.
+await sequelize.sync({ alter: true });
+
+// ============================
+// ROTAS
+// ============================
+
+// ROTA PRINCIPAL: Redireciona para o login.
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
+
+// Rota do Chatbot: decide qual página mostrar (com ou sem questionário)
+app.get('/index.html', async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login.html');
+  }
+
+  try {
+    // Busca o usuário no banco para ter a informação mais recente
+    const usuario = await Usuario.findByPk(req.session.user.id);
+    if (usuario && !usuario.quizCompleted) {
+      // Se o quiz não foi completo, mostra a página com o questionário
+      res.sendFile(path.join(__dirname, 'public', 'questpontucao.html'));
+    } else {
+      // Se já completou, mostra a página de chat normal
+      res.sendFile(path.join(__dirname, 'public', 'chat.html'));
+    }
+  } catch (error) {
+    console.error("Erro ao verificar status do quiz:", error);
+    res.status(500).send("Erro ao carregar a página do chat.");
+  }
+});
 
 // ============================
 // ROTAS DE AUTENTICAÇÃO
@@ -122,8 +139,15 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Credenciais inválidas." });
     }
 
-    req.session.user = usuario;
-
+    // Armazena um objeto simples na sessão para evitar erros de serialização
+    // e para não expor dados sensíveis como a senha.
+    req.session.user = {
+      id: usuario.id,
+      username: usuario.username,
+      fullname: usuario.fullname,
+      email: usuario.email,
+      quizCompleted: usuario.quizCompleted
+    };
     // Responde com JSON para a requisição fetch do frontend
     res.status(200).json({ message: "Login realizado com sucesso!" });
   } catch (error) {
@@ -137,6 +161,27 @@ app.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/login.html");
   });
+});
+
+// Rota para marcar o questionário como concluído
+app.post('/quiz/complete', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: 'Usuário não autenticado.' });
+  }
+
+  try {
+    const usuario = await Usuario.findByPk(req.session.user.id);
+    if (usuario) {
+      usuario.quizCompleted = true;
+      await usuario.save();
+      req.session.user.quizCompleted = true; // Atualiza a sessão também
+      res.status(200).json({ message: 'Status do quiz atualizado com sucesso.' });
+    } else {
+      res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Erro interno ao atualizar status do quiz.' });
+  }
 });
 
 // (Opcional) Rota para listar usuários
@@ -185,6 +230,12 @@ app.post("/chat", async (req, res) => {
     res.status(500).json({ error: "Erro ao processar mensagem." });
   }
 });
+
+// ============================
+// SERVIR ARQUIVOS ESTÁTICOS (deve vir depois das rotas)
+// ============================
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "static")));
 
 // ============================
 // START SERVER

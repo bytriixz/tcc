@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot Avaliação</title>
+  <title>Chatbot</title>
   <style>
     body, html {
             margin: 0;
@@ -170,11 +170,6 @@
             background-color: #466265;
         }
 
-     .options button {
-       margin: 5px; padding: 8px 12px; border-radius: 10px; border: none; cursor: pointer;
-       background: #4dcfe1; color: white; transition: background 0.3s;
-     }
-     .options button:hover { background: #3bb6c7; }
     footer { text-align: center; padding: 20px; background: #333; color: #fff; margin-top: auto; }
     /* ================= */
     /* MODO ESCURO */
@@ -251,8 +246,8 @@
     <div class="chat-container">
       <div class="chat-messages" id="chat-messages"></div>
       <div class="chat-input" id="chat-input-container">
-        <input type="text" id="user-input" placeholder="Aguarde o fim do questionário..." disabled>
-        <button id="send-button" disabled>Enviar</button>
+        <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+        <button id="send-button">Enviar</button>
       </div>
     </div>
   </main>
@@ -267,10 +262,6 @@
     const themeToggle = document.getElementById('theme-toggle');
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('send-button');
-    const chatInputContainer = document.getElementById('chat-input-container');
-
-    let answers = {};
-    let isQuizFinished = false;
 
     // Alternar tema
     themeToggle.addEventListener('click', () => {
@@ -284,36 +275,6 @@
       themeToggle.textContent = "☀️ Claro";
     }
 
-    // Questões
-    const questions = [
-      { subject: "Português", question: "Qual a alternativa em que todas as palavras estão corretamente acentuadas?", options: ["Lapís – Pônei – Júri","Tórax – Heróico – Júpiter","Tênis – Fácil – Pôde","Heroi – Vôo – País"], correct: 2 },
-      { subject: "Português", question: "O sujeito da frase “Chovia muito ontem à noite” é:", options: ["Indeterminado","Oculto","Composto","Inexistente"], correct: 3 },
-      { subject: "Português", question: "A função da conjunção “mas” em: “Estudei bastante, mas não fui bem na prova” é:", options: ["Aditiva","Conclusiva","Adversativa","Causal"], correct: 2 },
-      { subject: "Português", question: "O gênero literário ao qual pertence a obra Dom Casmurro é:", options: ["Lírico","Épico","Dramático","Narrativo"], correct: 3 },
-
-      { subject: "Matemática", question: "O valor de 2^3 + 3^2 é:", options: ["12","13","17","25"], correct: 2 },
-      { subject: "Matemática", question: "Uma loja vendeu 120 produtos. Se 30% eram camisas, quantas camisas foram vendidas?", options: ["36","40","30","45"], correct: 0 },
-      { subject: "Matemática", question: "O valor da expressão √81 + √25 é:", options: ["11","12","13","14"], correct: 2 },
-      { subject: "Matemática", question: "Em uma sala, 60% dos 50 alunos são meninas. Quantos meninos há na sala?", options: ["20","25","30","15"], correct: 1 },
-
-      { subject: "Física", question: "A unidade de medida da força no SI é:", options: ["Joule (J)","Newton (N)","Watt (W)","Pascal (Pa)"], correct: 1 },
-      { subject: "Física", question: "Um carro percorreu 180 km em 3 horas. Qual a sua velocidade média?", options: ["30 km/h","60 km/h","90 km/h","120 km/h"], correct: 1 },
-      { subject: "Física", question: "Qual desses fenômenos está relacionado à propagação retilínea da luz?", options: ["Sombra","Refração","Difração","Interferência"], correct: 0 },
-      { subject: "Física", question: "A energia cinética de um corpo depende de:", options: ["Massa e aceleração","Massa e velocidade","Força e deslocamento","Potência e tempo"], correct: 1 },
-
-      { subject: "Química", question: "Qual é o número atômico do oxigênio (O)?", options: ["6","7","8","9"], correct: 2 },
-      { subject: "Química", question: "A fórmula química da água é:", options: ["CO₂","H₂O","O₂","CH₄"], correct: 1 },
-      { subject: "Química", question: "O pH de uma solução básica é:", options: ["Menor que 7","Igual a 7","Maior que 7","Sempre igual a 14"], correct: 2 },
-      { subject: "Química", question: "Qual dessas substâncias é um sal?", options: ["HCl","NaCl","O₂","H₂"], correct: 1 },
-
-      { subject: "Biologia", question: "A unidade estrutural e funcional dos seres vivos é:", options: ["Tecido","Órgão","Célula","Molécula"], correct: 2 },
-      { subject: "Biologia", question: "O DNA é formado por unidades chamadas:", options: ["Aminoácidos","Nucleotídeos","Polissacarídeos","Ácidos graxos"], correct: 1 },
-      { subject: "Biologia", question: "Em qual organela ocorre a respiração celular?", options: ["Núcleo","Cloroplasto","Mitocôndria","Ribossomo"], correct: 2 },
-      { subject: "Biologia", question: "A fotossíntese ocorre, principalmente, em qual estrutura?", options: ["Mitocôndria","Lisossomo","Cloroplasto","Vacúolo"], correct: 2 }
-    ];
-
-    let currentQuestion = 0;
-
     function addMessage(text, sender="bot") {
       const msg = document.createElement("div");
       msg.classList.add("message", sender);
@@ -325,113 +286,20 @@
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function showQuestion(index) {
-      if (index >= questions.length) {
-        finishQuiz();
-        return;
-      }
-      const q = questions[index];
-      addMessage(`<b>${q.subject}:</b> ${q.question}`);
-      const optionsDiv = document.createElement("div");
-      optionsDiv.classList.add("options");
-      q.options.forEach((opt, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = opt;
-        btn.onclick = () => selectAnswer(index, i);
-        optionsDiv.appendChild(btn);
-      });
-      chatMessages.appendChild(optionsDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function selectAnswer(qIndex, optIndex) {
-      // Remove options from previous question
-      const optionsContainer = document.querySelector('.options');
-      if (optionsContainer) {
-          optionsContainer.parentElement.removeChild(optionsContainer);
-      }
-
-      answers[qIndex] = optIndex;
-      addMessage(questions[qIndex].options[optIndex], "user");
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      setTimeout(()=>showQuestion(qIndex+1), 800);
-    }
-
-    function finishQuiz() {
-      addMessage("✅ Avaliação finalizada! Calculando seus resultados...");
-
-      // Avisa o servidor que o quiz foi concluído
-      fetch('/quiz/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      }).then(response => {
-        if (!response.ok) {
-          console.error('Falha ao marcar o quiz como completo no servidor.');
-        }
-      }).catch(err => console.error('Erro de conexão ao marcar quiz:', err));
-
-      let score = 0;
-      const scoresBySubject = {};
-      const totalBySubject = {};
-
-      questions.forEach((q, index) => {
-          if (totalBySubject[q.subject] === undefined) {
-              totalBySubject[q.subject] = 0;
-              scoresBySubject[q.subject] = 0;
-          }
-          totalBySubject[q.subject]++;
-
-          if (answers[index] === q.correct) {
-              score++;
-              scoresBySubject[q.subject]++;
-          }
-      });
-
-      let resultMessage = `Você acertou ${score} de ${questions.length} perguntas.<br><br><b>Pontuação por matéria:</b><br>`;
-      for (const subject in scoresBySubject) {
-          resultMessage += `${subject}: ${scoresBySubject[subject]} de ${totalBySubject[subject]}<br>`;
-      }
-
-      setTimeout(() => {
-        addMessage(resultMessage);
-      }, 1000);
-
-      setTimeout(() => {
-        addMessage("Agora você já pode tirar suas dúvidas. Como posso ajudar?");
-        userInput.disabled = false;
-        sendButton.disabled = false;
-        userInput.placeholder = "Digite sua mensagem...";
-        isQuizFinished = true;
-      }, 2000);
-    }
-
     // Chatbot Q&A function
     async function sendMessage() {
-        if (!isQuizFinished) return;
-
         const messageText = userInput.value.trim();
         if (messageText === '') return;
 
-        // Mensagem do usuário
         addMessage(messageText, 'user');
-
-        // Limpar input
         userInput.value = '';
         userInput.disabled = true;
         sendButton.disabled = true;
         userInput.placeholder = "Aguardando resposta...";
 
-        // Adiciona animação de carregamento
         const loadingDiv = document.createElement('div');
         loadingDiv.classList.add('message', 'bot');
-        loadingDiv.innerHTML = `
-            <div class="message-bubble">
-                <div class="loading-dots">
-                    <span></span><span></span><span></span>
-                </div>
-            </div>
-        `;
+        loadingDiv.innerHTML = `<div class="message-bubble"><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
         chatMessages.appendChild(loadingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -448,10 +316,8 @@
             }
 
             const data = await response.json();
-            const botReply = data.reply;
-
             chatMessages.removeChild(loadingDiv);
-            addMessage(marked.parse(botReply), 'bot');
+            addMessage(marked.parse(data.reply), 'bot');
 
         } catch (error) {
             console.error('Erro ao enviar mensagem:', error);
@@ -461,7 +327,7 @@
             userInput.disabled = false;
             sendButton.disabled = false;
             userInput.placeholder = "Digite sua mensagem...";
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            userInput.focus();
         }
     }
 
@@ -474,9 +340,8 @@
 
     // Início
     function start() {
-        addMessage("👋 Olá estudante! Bem-vindo ao chatbot de avaliação de nível.");
-        setTimeout(()=>addMessage("Vamos iniciar um questionário rápido de Português, Matemática, Física, Química e Biologia."), 1000);
-        setTimeout(()=>showQuestion(0), 2000);
+        addMessage("👋 Olá! Bem-vindo de volta. Como posso te ajudar hoje?");
+        userInput.focus();
     }
 
     start();
