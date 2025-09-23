@@ -52,6 +52,7 @@ const Usuario = sequelize.define("Usuario", {
   username: { type: DataTypes.STRING, allowNull: false, unique: true },
   password: { type: DataTypes.STRING, allowNull: false },
   quizCompleted: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
+  score: { type: DataTypes.INTEGER, allowNull: true },
 });
 
 // Cria tabela se não existir
@@ -163,23 +164,35 @@ app.get("/logout", (req, res) => {
   });
 });
 
-// Rota para marcar o questionário como concluído
+// Rota para marcar o questionário como concluído e salvar a pontuação
 app.post('/quiz/complete', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ error: 'Usuário não autenticado.' });
+  }
+
+  const { score } = req.body;
+
+  if (score === undefined) {
+    return res.status(400).json({ error: 'Pontuação não fornecida.' });
   }
 
   try {
     const usuario = await Usuario.findByPk(req.session.user.id);
     if (usuario) {
       usuario.quizCompleted = true;
+      usuario.score = score; // Salva a pontuação
       await usuario.save();
-      req.session.user.quizCompleted = true; // Atualiza a sessão também
-      res.status(200).json({ message: 'Status do quiz atualizado com sucesso.' });
+
+      // Atualiza a sessão com os novos dados
+      req.session.user.quizCompleted = true;
+      req.session.user.score = score;
+
+      res.status(200).json({ message: 'Quiz finalizado e pontuação salva com sucesso.' });
     } else {
       res.status(404).json({ error: 'Usuário não encontrado.' });
     }
   } catch (error) {
+    console.error('Erro ao salvar pontuação do quiz:', error);
     res.status(500).json({ error: 'Erro interno ao atualizar status do quiz.' });
   }
 });

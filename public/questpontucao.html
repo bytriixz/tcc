@@ -361,16 +361,6 @@
     function finishQuiz() {
       addMessage("✅ Avaliação finalizada! Calculando seus resultados...");
 
-      // Avisa o servidor que o quiz foi concluído
-      fetch('/quiz/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      }).then(response => {
-        if (!response.ok) {
-          console.error('Falha ao marcar o quiz como completo no servidor.');
-        }
-      }).catch(err => console.error('Erro de conexão ao marcar quiz:', err));
-
       let score = 0;
       const scoresBySubject = {};
       const totalBySubject = {};
@@ -388,7 +378,20 @@
           }
       });
 
-      let resultMessage = `Você acertou ${score} de ${questions.length} perguntas.<br><br><b>Pontuação por matéria:</b><br>`;
+      // Avisa o servidor que o quiz foi concluído E envia a pontuação
+      fetch('/quiz/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: score }) // Envia a pontuação calculada
+      }).then(response => {
+        if (response.ok) {
+          console.log('Pontuação salva com sucesso no servidor.');
+        } else {
+          console.error('Falha ao salvar a pontuação no servidor.');
+        }
+      }).catch(err => console.error('Erro de conexão ao salvar pontuação:', err));
+
+      let resultMessage = `Sua pontuação total foi: <b>${score} de ${questions.length}</b>.<br><br><b>Pontuação por matéria:</b><br>`;
       for (const subject in scoresBySubject) {
           resultMessage += `${subject}: ${scoresBySubject[subject]} de ${totalBySubject[subject]}<br>`;
       }
