@@ -92,6 +92,13 @@ app.get('/index.html', async (req, res) => {
   }
 });
 
+app.get('/aprendizado.html', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login.html');
+  }
+  res.sendFile(path.join(__dirname, 'static', 'aprendizado.html'));
+});
+
 // ============================
 // ROTAS DE AUTENTICAÇÃO
 // ============================
