@@ -203,9 +203,10 @@
         const data = await response.json();
 
         if (response.ok) {
-          msg.textContent = "✅ Conta criada com sucesso!";
+          msg.textContent = "✅ Conta criada com sucesso! Redirecionando para o login...";
           msg.style.color = "lime";
-          form.reset();
+          // Redireciona para a página de login após 1.5 segundos
+          setTimeout(() => window.location.href = "login.html", 1500);
         } else {
           msg.textContent = "❌ " + (data.error || "Erro ao criar conta.");
           msg.style.color = "red";

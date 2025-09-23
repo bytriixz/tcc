@@ -24,6 +24,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ============================
+// ROTA PRINCIPAL
+// ============================
+// Redireciona a raiz do site (/) para a página de login.
+// Esta rota precisa vir ANTES de `express.static` para ter prioridade sobre
+// um possível arquivo `index.html` na pasta `static`.
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
+
+// ============================
 // MIDDLEWARES
 // ============================
 app.use(cors());
@@ -64,29 +74,28 @@ await sequelize.sync();
 
 // Cadastro
 app.post("/cadusuar", async (req, res) => {
-  const { fullname, email, username, password, confirm_password } = req.body;
-
-  if (password !== confirm_password) {
-    return res.status(400).json({ error: "Senhas não coincidem!" });
-  }
+  // A validação de 'confirm_password' já é feita no frontend (cadastro.html)
+  // O frontend não envia 'confirm_password', então removemos a checagem aqui.
+  const { fullname, email, username, password } = req.body;
 
   try {
     const senhaCriptografada = await bcrypt.hash(password, 10);
-    await Usuario.create({
+    const novoUsuario = await Usuario.create({
       fullname,
       email,
       username,
       password: senhaCriptografada,
     });
 
-    // Redireciona para login após cadastro
-    res.redirect("/login.html");
+    // Responde com JSON para a requisição fetch do frontend
+    res.status(201).json({ message: "Conta criada com sucesso!" });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
-      return res.status(400).send("Usuário ou email já cadastrado.");
+      // Retorna um erro em JSON que o frontend pode exibir
+      return res.status(400).json({ error: "Usuário ou email já cadastrado." });
     }
     console.error("Erro ao cadastrar:", error);
-    res.status(500).send("Erro ao cadastrar usuário.");
+    res.status(500).json({ error: "Erro interno ao cadastrar usuário." });
   }
 });
 
@@ -98,21 +107,22 @@ app.post("/login", async (req, res) => {
     const usuario = await Usuario.findOne({ where: { username } });
 
     if (!usuario) {
-      return res.status(400).send("Usuário não encontrado!");
+      // Usamos 401 (Não autorizado) e retornamos JSON
+      return res.status(401).json({ error: "Credenciais inválidas." });
     }
 
     const senhaValida = await bcrypt.compare(password, usuario.password);
     if (!senhaValida) {
-      return res.status(400).send("Senha incorreta!");
+      return res.status(401).json({ error: "Credenciais inválidas." });
     }
 
     req.session.user = usuario;
 
-    // Redireciona para a página inicial após login
-    res.redirect("/inicio.html");
+    // Responde com JSON para a requisição fetch do frontend
+    res.status(200).json({ message: "Login realizado com sucesso!" });
   } catch (error) {
     console.error("Erro no login:", error);
-    res.status(500).send("Erro ao realizar login.");
+    res.status(500).json({ error: "Erro interno ao realizar login." });
   }
 });
 

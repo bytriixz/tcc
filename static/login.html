@@ -176,8 +176,8 @@
         if (response.ok) {
           msg.textContent = "✅ Login realizado com sucesso!";
           msg.style.color = "lime";
-          // redireciona após 1 segundo
-          setTimeout(() => window.location.href = "inicio.html", 1000);
+          // Redireciona para a página inicial após 1 segundo
+          setTimeout(() => window.location.href = "/inicio.html", 1000);
         } else {
           msg.textContent = "❌ " + (data.error || "Credenciais inválidas.");
           msg.style.color = "red";
