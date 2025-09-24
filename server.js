@@ -276,7 +276,6 @@ app.post("/chat", async (req, res) => {
 // ============================
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "static")));
-app.use(express.static(path.join(__dirname, "images"))); // Adiciona esta linha para servir a pasta 'images'
 
 // ============================
 // START SERVER
