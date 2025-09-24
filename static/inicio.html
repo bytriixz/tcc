@@ -98,6 +98,15 @@
             transition: background-color 0.3s ease;
         }
 
+        .level-display {
+            background-color: #e0f7fa;
+            color: #00796b;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
         .cta-button:hover {
             background-color: #466265;
         }
@@ -177,6 +186,27 @@
             color: #fff;
         }
 
+        /* Estilos do menu de usuário */
+        li.user-menu { position: relative; display: inline-block; } /* Aumenta a especificidade */
+        .user-menu-btn {
+            background: none; border: none; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; color: inherit; font-weight: bold;
+        }
+        .user-menu-btn img { width: 30px; height: 30px; border-radius: 50%; margin-right: 8px; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: #fff;
+            min-width: 160px; box-shadow: 0px 8px 16px rgba(0,0,0,0.2); z-index: 1; border-radius: 5px; }
+        body.dark-mode .dropdown-content { background-color: #2c2c2c; }
+        .dropdown-content a { color: black !important; padding: 12px 16px; text-decoration: none; display: block; }
+        body.dark-mode .dropdown-content a { color: #e0e0e0 !important; }
+        .dropdown-content a:hover { background-color: #f1f1f1; }
+        body.dark-mode .dropdown-content a:hover { background-color: #383838; }
+        .user-menu:hover .dropdown-content { display: block; }
+        
+        body.dark-mode .level-display {
+            background-color: #004d40;
+            color: #b2dfdb;
+        }
+
         /* Botão plataforma no menu */
         .study-btn {
             background: #fff;
@@ -199,9 +229,18 @@
             <h1>LabTech</h1>
             <nav>
                 <ul>
-                    <li><a href="/aprendizado.html" class="study-btn">Plataforma de Estudo</a></li>
-                    <li><a href="/logout">Sair</a></li>
-                    <li><button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Escuro</button></li>
+                    <li><a href="/aprendizado.html" class="study-btn">Plataforma de Estudo</a></li> 
+                    <li class="user-menu">
+                        <button class="user-menu-btn">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iZ3JheSIgd2lkdGg9IjMwcHgiIGhlaWdodD0iMzBweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMiAxMi4yNWMxLjIzIDAgMi4yNS0xLjAyIDIuMjUtMi4yNVMxMy4yMyA3LjcgMTIgNy43IDEwLjI1IDguMiAxMC4yNSA5czEuMDIgMi4yNSAyLjI1IDIuMjV6bTAtMmMtMi42NyAwLTggMS4zNC04IDR2MmgxNnYtMmMwLTIuNjYtNS4zMy00LTgtNHoiLz48L3N2Zz4=" alt="User Avatar">
+                            <span>Carregando...</span> &#9662;
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/perfil.html">Meu Perfil</a>
+                            <a href="/logout">Sair</a>
+                        </div>
+                    </li>
+                    <li><button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Escuro</button></li> 
                 </ul>
             </nav>
         </div>
@@ -211,6 +250,7 @@
         <section class="hero">
             <h2>Converse com o Futuro</h2>
             <p>Nosso chatbot inteligente está pronto para ajudar você com respostas rápidas e precisas, 24 horas por dia.</p>
+            <div id="level-container" style="display: none;"><span class="level-display">Seu nível: <b id="student-level"></b></span></div>
             <a href="/index.html" class="cta-button">Começar a Conversar</a>
         </section>
 
@@ -256,13 +296,50 @@
         }
 
         // Carregar tema salvo
-        window.onload = () => {
+        document.addEventListener("DOMContentLoaded", () => {
             const savedTheme = localStorage.getItem("theme");
             if (savedTheme === "dark") {
                 document.body.classList.add("dark-mode");
                 document.querySelector(".theme-toggle").textContent = "☀️ Modo Claro";
             }
-        };
+
+            // Buscar dados do usuário e exibir o nível
+            fetchUserData();
+        });
+
+        async function fetchUserData() {
+            try {
+                const response = await fetch('/api/me');
+                if (!response.ok) {
+                    // Se não estiver logado, redireciona para o login
+                    if (response.status === 401) window.location.href = '/login.html';
+                    return;
+                }
+                const user = await response.json();
+
+                // Atualiza o nome do usuário no menu
+                const userNameSpan = document.querySelector(".user-menu-btn span");
+                if (userNameSpan) userNameSpan.textContent = user.fullname;
+
+                // Calcula e exibe o nível se o quiz foi completado
+                if (user.quizCompleted && user.score !== null) {
+                    const level = getStudentLevel(user.score);
+                    document.getElementById('student-level').textContent = level;
+                    document.getElementById('level-container').style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error("Erro ao buscar dados do usuário:", error);
+            }
+        }
+
+        function getStudentLevel(score) {
+            if (score <= 5) return "Iniciante";
+            if (score <= 10) return "Básico";
+            if (score <= 15) return "Intermediário";
+            if (score <= 20) return "Avançado";
+            return "Não definido";
+        }
     </script>
 </body>
 </html>

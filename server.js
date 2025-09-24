@@ -99,6 +99,13 @@ app.get('/aprendizado.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'static', 'aprendizado.html'));
 });
 
+app.get('/perfil.html', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login.html');
+  }
+  res.sendFile(path.join(__dirname, 'static', 'perfil.html'));
+});
+
 // ============================
 // ROTAS DE AUTENTICAÇÃO
 // ============================
@@ -210,6 +217,19 @@ app.get("/usuarios", async (req, res) => {
   res.json(lista);
 });
 
+// Rota para obter dados do usuário logado
+app.get('/api/me', async (req, res) => {
+  if (!req.session.user || !req.session.user.id) {
+    return res.status(401).json({ error: 'Usuário não autenticado.' });
+  }
+  try {
+    const usuario = await Usuario.findByPk(req.session.user.id);
+    res.json(usuario);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao buscar dados do usuário.' });
+  }
+});
+
 // ============================
 // CHATBOT GEMINI
 // ============================
@@ -256,6 +276,7 @@ app.post("/chat", async (req, res) => {
 // ============================
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "images"))); // Adiciona esta linha para servir a pasta 'images'
 
 // ============================
 // START SERVER

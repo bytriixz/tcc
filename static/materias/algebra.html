@@ -172,6 +172,16 @@
       border-color: #f44336;
     }
 
+    body.dark-mode .options button.correct {
+      background-color: #2e7d32;
+      border-color: #2e7d32;
+    }
+
+    body.dark-mode .options button.wrong {
+      background-color: #c62828;
+      border-color: #c62828;
+    }
+
     .back-btn {
       display: inline-block;
       margin-top: 20px;
@@ -238,9 +248,9 @@
     <div class="exercise">
       <p>1) Simplifique: 3x + 5x</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '7x')">7x</button>
+        <button onclick="checkAnswer(this, '8x')">7x</button>
         <button onclick="checkAnswer(this, '8x')">8x</button>
-        <button onclick="checkAnswer(this, '3x5x')">3x5x</button>
+        <button onclick="checkAnswer(this, '8x')">3x5x</button>
       </div>
     </div>
 
@@ -248,8 +258,8 @@
       <p>2) Resolva: x + 5 = 12</p>
       <div class="options">
         <button onclick="checkAnswer(this, '7')">7</button>
-        <button onclick="checkAnswer(this, '12')">12</button>
-        <button onclick="checkAnswer(this, '5')">5</button>
+        <button onclick="checkAnswer(this, '7')">12</button>
+        <button onclick="checkAnswer(this, '7')">5</button>
       </div>
     </div>
 
@@ -257,8 +267,8 @@
       <p>3) Multiplique: 2 ⋅ (3x + 4)</p>
       <div class="options">
         <button onclick="checkAnswer(this, '6x + 8')">6x + 8</button>
-        <button onclick="checkAnswer(this, '5x + 8')">5x + 8</button>
-        <button onclick="checkAnswer(this, '2x + 4')">2x + 4</button>
+        <button onclick="checkAnswer(this, '6x + 8')">5x + 8</button>
+        <button onclick="checkAnswer(this, '6x + 8')">2x + 4</button>
       </div>
     </div>
 
@@ -281,14 +291,20 @@
     });
 
     function checkAnswer(btn, correctAnswer) {
-      const buttons = btn.parentElement.querySelectorAll('button');
-      buttons.forEach(b => b.disabled = false); // ensure clickable
-      buttons.forEach(b => b.disabled = true); // disable after click
-      if (btn.textContent === correctAnswer) btn.classList.add('correct');
-      else {
+      // Pega todos os botões dentro do mesmo grupo de opções
+      const optionsContainer = btn.parentElement;
+      const buttons = optionsContainer.querySelectorAll('button');
+
+      if (btn.textContent === correctAnswer) {
+        // Se a resposta está correta, pinta o botão de verde
+        btn.classList.add('correct');
+      } else {
+        // Se errada, pinta o clicado de vermelho e o correto de verde
         btn.classList.add('wrong');
         buttons.forEach(b => { if (b.textContent === correctAnswer) b.classList.add('correct'); });
       }
+      // Desabilita todos os botões da questão APÓS a resposta ser processada
+      buttons.forEach(b => b.disabled = true);
     }
   </script>
 </body>

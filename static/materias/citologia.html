@@ -38,6 +38,16 @@
     .options button.wrong { background-color:#f44336; color:#fff; border-color:#f44336; }
 
     .back-btn { display:inline-block; margin-top:20px; padding:10px 15px; background-color:#56c8e6; color:#fff; text-decoration:none; border-radius:5px; transition: background-color 0.3s; }
+
+    body.dark-mode .options button.correct {
+      background-color: #2e7d32;
+      border-color: #2e7d32;
+    }
+
+    body.dark-mode .options button.wrong {
+      background-color: #c62828;
+      border-color: #c62828;
+    }
     body.dark-mode .back-btn { background-color:#4ab8d0; }
     .back-btn:hover { background-color:#4aa3c8; }
   </style>
@@ -78,27 +88,27 @@
     <div class="exercise">
       <p>1) Qual organela é responsável pela produção de energia na célula?</p>
       <div class="options">
-        <button onclick="checkAnswer(this,'Mitocôndria')">Mitocôndria</button>
-        <button onclick="checkAnswer(this,'Ribossomo')">Ribossomo</button>
-        <button onclick="checkAnswer(this,'Lisossomo')">Lisossomo</button>
+        <button onclick="checkAnswer(this, 'Mitocôndria')">Mitocôndria</button>
+        <button onclick="checkAnswer(this, 'Mitocôndria')">Ribossomo</button>
+        <button onclick="checkAnswer(this, 'Mitocôndria')">Lisossomo</button>
       </div>
     </div>
 
     <div class="exercise">
       <p>2) Qual tipo de célula não possui núcleo delimitado por membrana?</p>
       <div class="options">
-        <button onclick="checkAnswer(this,'Procarionte')">Procarionte</button>
-        <button onclick="checkAnswer(this,'Eucarionte')">Eucarionte</button>
-        <button onclick="checkAnswer(this,'Cloroplasto')">Cloroplasto</button>
+        <button onclick="checkAnswer(this, 'Procarionte')">Procarionte</button>
+        <button onclick="checkAnswer(this, 'Procarionte')">Eucarionte</button>
+        <button onclick="checkAnswer(this, 'Procarionte')">Cloroplasto</button>
       </div>
     </div>
 
     <div class="exercise">
       <p>3) Qual organela realiza a fotossíntese nas células vegetais?</p>
       <div class="options">
-        <button onclick="checkAnswer(this,'Cloroplasto')">Cloroplasto</button>
-        <button onclick="checkAnswer(this,'Mitocôndria')">Mitocôndria</button>
-        <button onclick="checkAnswer(this,'Núcleo')">Núcleo</button>
+        <button onclick="checkAnswer(this, 'Cloroplasto')">Cloroplasto</button>
+        <button onclick="checkAnswer(this, 'Cloroplasto')">Mitocôndria</button>
+        <button onclick="checkAnswer(this, 'Cloroplasto')">Núcleo</button>
       </div>
     </div>
 
@@ -122,9 +132,17 @@
 
     function checkAnswer(btn, correctAnswer) {
       const buttons = btn.parentElement.querySelectorAll('button');
+
+      if (btn.textContent === correctAnswer) {
+        // Se a resposta está correta, pinta o botão de verde
+        btn.classList.add('correct');
+      } else {
+        // Se errada, pinta o clicado de vermelho e o correto de verde
+        btn.classList.add('wrong');
+        buttons.forEach(b => { if (b.textContent === correctAnswer) b.classList.add('correct'); });
+      }
+      // Desabilita todos os botões da questão APÓS a resposta ser processada
       buttons.forEach(b => b.disabled = true);
-      if(btn.textContent === correctAnswer) btn.classList.add('correct');
-      else { btn.classList.add('wrong'); buttons.forEach(b => { if(b.textContent === correctAnswer) b.classList.add('correct'); }); }
     }
   </script>
 </body>

@@ -125,13 +125,12 @@
   <div style="display: flex; align-items: center;">
     <div class="user-menu">
       <button class="user-menu-btn">
-        <img src="https://via.placeholder.com/30" alt="User Avatar">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iZ3JheSIgd2lkdGg9IjMwcHgiIGhlaWdodD0iMzBweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMiAxMi4yNWMxLjIzIDAgMi4yNS0xLjAyIDIuMjUtMi4yNVMxMy4yMyA3LjcgMTIgNy43IDEwLjI1IDguMiAxMC4yNSA5czEuMDIgMi4yNSAyLjI1IDIuMjV6bTAtMmMtMi42NyAwLTggMS4zNC04IDR2MmgxNnYtMmMwLTIuNjYtNS4zMy00LTgtNHoiLz48L3N2Zz4=" alt="User Avatar">
         <span>Nome do Usuário</span> &#9662;
       </button>
       <div class="dropdown-content">
-        <a href="#">Meu Perfil</a>
-        <a href="#">Configurações</a>
-        <a href="#">Sair</a>
+        <a href="/perfil.html">Meu Perfil</a>
+        <a href="/logout">Sair</a>
       </div>
     </div>
     <button class="theme-toggle" onclick="toggleTheme()">Modo Escuro</button>
@@ -186,6 +185,8 @@
           <li><a href="/materias/algebra.html">Álgebra</a></li>
           <li><a href="#">Equações Lineares</a></li>
           <li><a href="#">Geometria</a></li>
+          <li><a href="/materias/equacoesLineares.html">Equações Lineares</a></li>
+          <li><a href="/materias/geometria.html">Geometria</a></li>
         </ul>
       </li>
       <li>
@@ -194,6 +195,8 @@
           <li><a href="/materias/cinematica.html">Cinemática</a></li>
           <li><a href="#">Dinâmica</a></li>
           <li><a href="#">Termodinâmica</a></li>
+          <li><a href="/materias/dinamica.html">Dinâmica</a></li>
+          <li><a href="/materias/termodinamica.html">Termodinâmica</a></li>
         </ul>
       </li>
       <li>
@@ -202,6 +205,8 @@
           <li><a href="/materias/tabelaPeriodica.html">Tabela Periódica</a></li>
           <li><a href="#">Reações Químicas</a></li>
           <li><a href="#">Estequiometria</a></li>
+          <li><a href="/materias/reacoesQuimicas.html">Reações Químicas</a></li>
+          <li><a href="/materias/estequiometria.html">Estequiometria</a></li>
         </ul>
       </li>
       <li>
@@ -210,6 +215,8 @@
           <li><a href="/materias/citologia.html">Citologia</a></li>
           <li><a href="#">Genética</a></li>
           <li><a href="#">Ecologia</a></li>
+          <li><a href="/materias/genetica.html">Genética</a></li>
+          <li><a href="/materias/ecologia.html">Ecologia</a></li>
         </ul>
       </li>
     </ul>
@@ -234,6 +241,8 @@
       toggleBtn.textContent = 'Modo Claro';
     }
 
+    fetchUserData();
+
     // Animate progress bars
     document.querySelectorAll('.progress-bar').forEach(bar => {
       const width = bar.style.width;
@@ -250,6 +259,23 @@
       });
     });
   });
+
+  async function fetchUserData() {
+      try {
+          const response = await fetch('/api/me');
+          if (!response.ok) {
+              if (response.status === 401) window.location.href = '/login.html';
+              return;
+          }
+          const user = await response.json();
+
+          // Atualiza o nome do usuário no menu
+          const userNameSpan = document.querySelector(".user-menu-btn span");
+          if (userNameSpan) userNameSpan.textContent = user.fullname;
+      } catch (error) {
+          console.error("Erro ao buscar dados do usuário:", error);
+      }
+  }
 </script>
 </body>
 </html>

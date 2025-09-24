@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil - LabTech</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background-color: #f4f4f4; color: #333; transition: background-color 0.3s, color 0.3s; padding-top: 80px; }
+    body.dark-mode { background-color: #121212; color: #e0e0e0; }
+
+    .header {
+      background-color: #fff; color: #333; padding: 15px 30px; display: flex;
+      justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark-mode .header { background-color: #1f1f1f; color: #e0e0e0; box-shadow: 0 2px 4px rgba(255,255,255,0.05); }
+    .logo a { font-size: 1.5rem; font-weight: bold; color: inherit; text-decoration: none; }
+
+    .header-nav { display: flex; align-items: center; }
+    .user-menu { position: relative; }
+    .user-menu-btn { background: none; border: none; cursor: pointer; font-size: 1rem; display: flex; align-items: center; color: inherit; }
+    .user-menu-btn img { width: 30px; height: 30px; border-radius: 50%; margin-right: 8px; }
+    .dropdown-content { display: none; position: absolute; right: 0; background-color: #fff; min-width: 160px; box-shadow: 0px 8px 16px rgba(0,0,0,0.2); z-index: 1; border-radius: 5px; }
+    body.dark-mode .dropdown-content { background-color: #2c2c2c; }
+    .dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; }
+    body.dark-mode .dropdown-content a { color: #e0e0e0; }
+    .dropdown-content a:hover { background-color: #f1f1f1; }
+    body.dark-mode .dropdown-content a:hover { background-color: #383838; }
+    .user-menu:hover .dropdown-content { display: block; }
+
+    .theme-toggle {
+      padding: 8px 12px; font-size: 0.9rem; background: transparent; border: 1px solid #ccc;
+      border-radius: 5px; cursor: pointer; color: #333; margin-left: 20px;
+    }
+    body.dark-mode .theme-toggle { color: #e0e0e0; border-color: #555; background-color: #2c2c2c; }
+
+    .main-container { padding: 40px 20px; max-width: 800px; margin: 0 auto; }
+    .profile-card {
+      background: white; border-radius: 12px; padding: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    body.dark-mode .profile-card { background-color: #1f1f1f; box-shadow: 0 4px 15px rgba(255,255,255,0.05); }
+
+    .profile-header { text-align: center; margin-bottom: 30px; }
+    .profile-header img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #56c8e6; }
+    .profile-header h1 { font-size: 2rem; margin: 0; }
+    .profile-header p { font-size: 1.1rem; color: #666; }
+    body.dark-mode .profile-header p { color: #aaa; }
+
+    .profile-details .detail-item {
+      display: flex; align-items: center; margin-bottom: 20px;
+      font-size: 1rem; padding: 10px; border-bottom: 1px solid #eee;
+    }
+    body.dark-mode .profile-details .detail-item { border-bottom-color: #333; }
+    .detail-item strong { color: #56c8e6; min-width: 150px; }
+    body.dark-mode .detail-item strong { color: #4ab8d0; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo"><a href="/inicio.html">LabTech</a></div>
+  <div class="header-nav">
+    <div class="user-menu">
+      <button class="user-menu-btn">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iZ3JheSIgd2lkdGg9IjMwcHgiIGhlaWdodD0iMzBweCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0xMiAxMi4yNWMxLjIzIDAgMi4yNS0xLjAyIDIuMjUtMi4yNVMxMy4yMyA3LjcgMTIgNy43IDEwLjI1IDguMiAxMC4yNSA5czEuMDIgMi4yNSAyLjI1IDIuMjV6bTAtMmMtMi42NyAwLTggMS4zNC04IDR2MmgxNnYtMmMwLTIuNjYtNS4zMy00LTgtNHoiLz48L3N2Zz4=" alt="User Avatar">
+        <span id="header-username">Carregando...</span> &#9662;
+      </button>
+      <div class="dropdown-content">
+        <a href="/aprendizado.html">Plataforma de Estudo</a>
+        <a href="/logout">Sair</a>
+      </div>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">Modo Escuro</button>
+  </div>
+</header>
+
+<div class="main-container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iZ3JheSIgd2lkdGg9IjEwMHB4IiBoZWlnaHQ9IjEwMHB4Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTEyIDEyLjI1YzEuMjMgMCAyLjI1LTEuMDIgMi4yNS0yLjI1UzEzLjIzIDcuNyAxMiA3LjcgMTAuMjUgOC4yIDEwLjI1IDlzMS4wMiAyLjI1IDIuMjUgMi4yNXptMC0yYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==" alt="User Avatar">
+      <h1 id="profile-fullname"></h1>
+      <p id="profile-level"></p>
+    </div>
+    <div class="profile-details">
+      <div class="detail-item">
+        <strong>Nome de Usuário:</strong>
+        <span id="profile-username"></span>
+      </div>
+      <div class="detail-item">
+        <strong>Email:</strong>
+        <span id="profile-email"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleTheme() {
+    const body = document.body;
+    const toggleBtn = document.querySelector('.theme-toggle');
+    body.classList.toggle('dark-mode');
+    const isDarkMode = body.classList.contains('dark-mode');
+    toggleBtn.textContent = isDarkMode ? 'Modo Claro' : 'Modo Escuro';
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('.theme-toggle').textContent = 'Modo Claro';
+    }
+    fetchAndDisplayUserData();
+  });
+
+  async function fetchAndDisplayUserData() {
+    try {
+      const response = await fetch('/api/me');
+      if (!response.ok) {
+        if (response.status === 401) window.location.href = '/login.html';
+        return;
+      }
+      const user = await response.json();
+
+      // Popula o cabeçalho
+      document.getElementById('header-username').textContent = user.fullname;
+
+      // Popula o cartão de perfil
+      document.getElementById('profile-fullname').textContent = user.fullname;
+      document.getElementById('profile-username').textContent = user.username;
+      document.getElementById('profile-email').textContent = user.email;
+
+      if (user.quizCompleted && user.score !== null) {
+        const level = getStudentLevel(user.score);
+        document.getElementById('profile-level').textContent = `Nível: ${level}`;
+      } else {
+        document.getElementById('profile-level').textContent = 'Nível: Não definido (complete o quiz inicial)';
+      }
+
+    } catch (error) {
+      console.error("Erro ao buscar dados do usuário:", error);
+      document.body.innerHTML = "<h1>Erro ao carregar perfil. Tente novamente mais tarde.</h1>";
+    }
+  }
+
+  function getStudentLevel(score) {
+    if (score <= 5) return "Iniciante";
+    if (score <= 10) return "Básico";
+    if (score <= 15) return "Intermediário";
+    if (score <= 20) return "Avançado";
+    return "Não definido";
+  }
+</script>
+
+</body>
+</html>

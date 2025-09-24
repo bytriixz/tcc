@@ -172,6 +172,16 @@
       border-color: #f44336;
     }
 
+    body.dark-mode .options button.correct {
+      background-color: #2e7d32;
+      border-color: #2e7d32;
+    }
+
+    body.dark-mode .options button.wrong {
+      background-color: #c62828;
+      border-color: #c62828;
+    }
+
     .back-btn {
       display: inline-block;
       margin-top: 20px;
@@ -226,8 +236,8 @@
       <p>1) Qual elemento está no grupo 1 e é um metal alcalino?</p>
       <div class="options">
         <button onclick="checkAnswer(this, 'Sódio (Na)')">Sódio (Na)</button>
-        <button onclick="checkAnswer(this, 'Oxigênio (O)')">Oxigênio (O)</button>
-        <button onclick="checkAnswer(this, 'Neônio (Ne)')">Neônio (Ne)</button>
+        <button onclick="checkAnswer(this, 'Sódio (Na)')">Oxigênio (O)</button>
+        <button onclick="checkAnswer(this, 'Sódio (Na)')">Neônio (Ne)</button>
       </div>
     </div>
 
@@ -235,16 +245,16 @@
       <p>2) O número de períodos da Tabela Periódica é:</p>
       <div class="options">
         <button onclick="checkAnswer(this, '7')">7</button>
-        <button onclick="checkAnswer(this, '18')">18</button>
-        <button onclick="checkAnswer(this, '8')">8</button>
+        <button onclick="checkAnswer(this, '7')">18</button>
+        <button onclick="checkAnswer(this, '7')">8</button>
       </div>
     </div>
 
     <div class="exercise">
       <p>3) O grupo 18 é conhecido como:</p>
       <div class="options">
-        <button onclick="checkAnswer(this, 'Metais alcalinos')">Metais alcalinos</button>
-        <button onclick="checkAnswer(this, 'Halogênios')">Halogênios</button>
+        <button onclick="checkAnswer(this, 'Gases nobres')">Metais alcalinos</button>
+        <button onclick="checkAnswer(this, 'Gases nobres')">Halogênios</button>
         <button onclick="checkAnswer(this, 'Gases nobres')">Gases nobres</button>
       </div>
     </div>
@@ -269,12 +279,17 @@
 
     function checkAnswer(btn, correctAnswer) {
       const buttons = btn.parentElement.querySelectorAll('button');
-      buttons.forEach(b => b.disabled = true);
-      if (btn.textContent === correctAnswer) btn.classList.add('correct');
-      else {
+
+      if (btn.textContent === correctAnswer) {
+        // Se a resposta está correta, pinta o botão de verde
+        btn.classList.add('correct');
+      } else {
+        // Se errada, pinta o clicado de vermelho e o correto de verde
         btn.classList.add('wrong');
         buttons.forEach(b => { if (b.textContent === correctAnswer) b.classList.add('correct'); });
       }
+      // Desabilita todos os botões da questão APÓS a resposta ser processada
+      buttons.forEach(b => b.disabled = true);
     }
   </script>
 </body>

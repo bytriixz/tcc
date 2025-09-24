@@ -172,6 +172,16 @@
       border-color: #f44336;
     }
 
+    body.dark-mode .options button.correct {
+      background-color: #2e7d32;
+      border-color: #2e7d32;
+    }
+
+    body.dark-mode .options button.wrong {
+      background-color: #c62828;
+      border-color: #c62828;
+    }
+
     .back-btn {
       display: inline-block;
       margin-top: 20px;
@@ -232,8 +242,8 @@
       <p>1) Um carro percorre 100 km em 2 h. Qual a sua velocidade média?</p>
       <div class="options">
         <button onclick="checkAnswer(this, '50 km/h')">50 km/h</button>
-        <button onclick="checkAnswer(this, '100 km/h')">100 km/h</button>
-        <button onclick="checkAnswer(this, '25 km/h')">25 km/h</button>
+        <button onclick="checkAnswer(this, '50 km/h')">100 km/h</button>
+        <button onclick="checkAnswer(this, '50 km/h')">25 km/h</button>
       </div>
     </div>
 
@@ -241,8 +251,8 @@
       <p>2) Se um corpo tem velocidade inicial de 10 m/s e atinge 30 m/s em 5 s, qual é a aceleração?</p>
       <div class="options">
         <button onclick="checkAnswer(this, '4 m/s²')">4 m/s²</button>
-        <button onclick="checkAnswer(this, '6 m/s²')">6 m/s²</button>
-        <button onclick="checkAnswer(this, '2 m/s²')">2 m/s²</button>
+        <button onclick="checkAnswer(this, '4 m/s²')">6 m/s²</button>
+        <button onclick="checkAnswer(this, '4 m/s²')">2 m/s²</button>
       </div>
     </div>
 
@@ -250,8 +260,8 @@
       <p>3) Um corpo em MRU tem posição inicial 0 m e velocidade de 8 m/s. Qual sua posição após 15 s?</p>
       <div class="options">
         <button onclick="checkAnswer(this, '120 m')">120 m</button>
-        <button onclick="checkAnswer(this, '100 m')">100 m</button>
-        <button onclick="checkAnswer(this, '80 m')">80 m</button>
+        <button onclick="checkAnswer(this, '120 m')">100 m</button>
+        <button onclick="checkAnswer(this, '120 m')">80 m</button>
       </div>
     </div>
 
@@ -275,12 +285,17 @@
 
     function checkAnswer(btn, correctAnswer) {
       const buttons = btn.parentElement.querySelectorAll('button');
-      buttons.forEach(b => b.disabled = true);
-      if (btn.textContent === correctAnswer) btn.classList.add('correct');
-      else {
+
+      if (btn.textContent === correctAnswer) {
+        // Se a resposta está correta, pinta o botão de verde
+        btn.classList.add('correct');
+      } else {
+        // Se errada, pinta o clicado de vermelho e o correto de verde
         btn.classList.add('wrong');
         buttons.forEach(b => { if (b.textContent === correctAnswer) b.classList.add('correct'); });
       }
+      // Desabilita todos os botões da questão APÓS a resposta ser processada
+      buttons.forEach(b => b.disabled = true);
     }
   </script>
 </body>
