@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aula de Matemática – Equações Lineares</title>
+  <title>Aula de Química – Reações Químicas</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { background-color: #f4f4f4; color: #333; transition: background-color 0.3s, color 0.3s; padding-top: 100px; }
@@ -45,53 +45,48 @@
   </header>
 
   <div class="main-container">
-    <h1>Aula de Matemática – Equações Lineares</h1>
+    <h1>Aula de Química – Reações Químicas</h1>
 
-    <h2>O que são Equações Lineares?</h2>
-    <p>Uma equação linear, ou equação de primeiro grau, é uma sentença matemática que estabelece uma igualdade entre duas expressões, envolvendo uma ou mais incógnitas com expoente 1. O objetivo é encontrar o valor da incógnita que torna a igualdade verdadeira.</p>
+    <h2>O que são Reações Químicas?</h2>
+    <p>Uma reação química é um processo que transforma um conjunto de substâncias, chamadas reagentes, em um novo conjunto de substâncias, os produtos. Durante uma reação, as ligações químicas entre os átomos são quebradas e novas ligações são formadas.</p>
 
-    <h2>Como Resolver</h2>
-    <p>O método principal é isolar a incógnita (geralmente 'x') em um dos lados da equação. Para isso, aplicamos operações inversas em ambos os lados da igualdade.</p>
+    <h2>Tipos Comuns de Reações</h2>
     <ul>
-      <li>Se um número está somando, ele passa para o outro lado subtraindo.</li>
-      <li>Se está subtraindo, passa somando.</li>
-      <li>Se está multiplicando, passa dividindo.</li>
-      <li>Se está dividindo, passa multiplicando.</li>
+      <li><strong>Síntese ou Adição:</strong> Duas ou mais substâncias se combinam para formar um único produto. Ex: <code>2H₂ + O₂ → 2H₂O</code></li>
+      <li><strong>Análise ou Decomposição:</strong> Uma substância se decompõe em duas ou mais substâncias mais simples. Ex: <code>2H₂O₂ → 2H₂O + O₂</code></li>
+      <li><strong>Simples Troca:</strong> Uma substância simples reage com uma composta, deslocando um de seus componentes. Ex: <code>Zn + 2HCl → ZnCl₂ + H₂</code></li>
+      <li><strong>Dupla Troca:</strong> Duas substâncias compostas reagem, trocando seus íons. Ex: <code>AgNO₃ + NaCl → AgCl + NaNO₃</code></li>
     </ul>
 
-    <h2>Exemplo</h2>
-    <p>Resolvendo a equação <code>3x - 5 = 10</code>:</p>
-    <p>1. Some 5 aos dois lados: <code>3x = 10 + 5</code></p>
-    <p>2. Simplifique: <code>3x = 15</code></p>
-    <p>3. Divida os dois lados por 3: <code>x = 15 / 3</code></p>
-    <p>4. Resultado: <code>x = 5</code></p>
+    <h2>Balanceamento de Equações</h2>
+    <p>O balanceamento garante que a lei da conservação da massa (Lei de Lavoisier) seja obedecida, ou seja, o número de átomos de cada elemento deve ser o mesmo nos reagentes e nos produtos.</p>
 
     <h2>Exercícios Interativos</h2>
 
     <div class="exercise">
-      <p>1) Resolva: 2x - 4 = 10</p>
+      <p>1) A reação C + O₂ → CO₂ é um exemplo de:</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '7')">5</button>
-        <button onclick="checkAnswer(this, '7')">7</button>
-        <button onclick="checkAnswer(this, '7')">14</button>
+        <button onclick="checkAnswer(this, 'Síntese')">Decomposição</button>
+        <button onclick="checkAnswer(this, 'Síntese')">Síntese</button>
+        <button onclick="checkAnswer(this, 'Síntese')">Dupla Troca</button>
       </div>
     </div>
 
     <div class="exercise">
-      <p>2) Qual o valor de y em: 3y + 2 = y + 8</p>
+      <p>2) Na equação 2Mg + O₂ → 2MgO, quais são os reagentes?</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '3')">3</button>
-        <button onclick="checkAnswer(this, '3')">2</button>
-        <button onclick="checkAnswer(this, '3')">5</button>
+        <button onclick="checkAnswer(this, 'Mg e O₂')">MgO</button>
+        <button onclick="checkAnswer(this, 'Mg e O₂')">Mg e MgO</button>
+        <button onclick="checkAnswer(this, 'Mg e O₂')">Mg e O₂</button>
       </div>
     </div>
 
     <div class="exercise">
-      <p>3) Se 5(a - 1) = 20, qual o valor de 'a'?</p>
+      <p>3) Qual tipo de reação ocorre quando um ácido reage com uma base para formar sal e água?</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '5')">4</button>
-        <button onclick="checkAnswer(this, '5')">5</button>
-        <button onclick="checkAnswer(this, '5')">6</button>
+        <button onclick="checkAnswer(this, 'Dupla Troca (Neutralização)')">Simples Troca</button>
+        <button onclick="checkAnswer(this, 'Dupla Troca (Neutralização)')">Dupla Troca (Neutralização)</button>
+        <button onclick="checkAnswer(this, 'Dupla Troca (Neutralização)')">Síntese</button>
       </div>
     </div>
 

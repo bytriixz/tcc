@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aula de Matemática – Equações Lineares</title>
+  <title>Aula de Física – Dinâmica</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { background-color: #f4f4f4; color: #333; transition: background-color 0.3s, color 0.3s; padding-top: 100px; }
@@ -45,53 +45,50 @@
   </header>
 
   <div class="main-container">
-    <h1>Aula de Matemática – Equações Lineares</h1>
+    <h1>Aula de Física – Dinâmica</h1>
 
-    <h2>O que são Equações Lineares?</h2>
-    <p>Uma equação linear, ou equação de primeiro grau, é uma sentença matemática que estabelece uma igualdade entre duas expressões, envolvendo uma ou mais incógnitas com expoente 1. O objetivo é encontrar o valor da incógnita que torna a igualdade verdadeira.</p>
+    <h2>O que é Dinâmica?</h2>
+    <p>A Dinâmica é a parte da mecânica que estuda o movimento dos corpos e as forças que o causam. Ela se baseia fundamentalmente nas Leis de Newton.</p>
 
-    <h2>Como Resolver</h2>
-    <p>O método principal é isolar a incógnita (geralmente 'x') em um dos lados da equação. Para isso, aplicamos operações inversas em ambos os lados da igualdade.</p>
+    <h2>As Leis de Newton</h2>
     <ul>
-      <li>Se um número está somando, ele passa para o outro lado subtraindo.</li>
-      <li>Se está subtraindo, passa somando.</li>
-      <li>Se está multiplicando, passa dividindo.</li>
-      <li>Se está dividindo, passa multiplicando.</li>
+      <li><strong>1ª Lei (Inércia):</strong> Um corpo em repouso tende a permanecer em repouso, e um corpo em movimento tende a permanecer em movimento com velocidade constante, a menos que uma força externa atue sobre ele.</li>
+      <li><strong>2ª Lei (Princípio Fundamental da Dinâmica):</strong> A força resultante sobre um corpo é igual ao produto de sua massa pela sua aceleração (<code>F = m ⋅ a</code>).</li>
+      <li><strong>3ª Lei (Ação e Reação):</strong> Para toda ação, há uma reação de mesma intensidade e direção, mas em sentido oposto.</li>
     </ul>
 
     <h2>Exemplo</h2>
-    <p>Resolvendo a equação <code>3x - 5 = 10</code>:</p>
-    <p>1. Some 5 aos dois lados: <code>3x = 10 + 5</code></p>
-    <p>2. Simplifique: <code>3x = 15</code></p>
-    <p>3. Divida os dois lados por 3: <code>x = 15 / 3</code></p>
-    <p>4. Resultado: <code>x = 5</code></p>
+    <p>Qual a força necessária para acelerar um objeto de 10 kg a uma taxa de 2 m/s²?</p>
+    <p>Usando a 2ª Lei de Newton: <code>F = m ⋅ a</code></p>
+    <p><code>F = 10 kg ⋅ 2 m/s² = 20 N</code></p>
+    <p>A força necessária é de 20 Newtons.</p>
 
     <h2>Exercícios Interativos</h2>
 
     <div class="exercise">
-      <p>1) Resolva: 2x - 4 = 10</p>
+      <p>1) A tendência de um corpo de resistir a mudanças em seu estado de movimento é chamada de:</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '7')">5</button>
-        <button onclick="checkAnswer(this, '7')">7</button>
-        <button onclick="checkAnswer(this, '7')">14</button>
+        <button onclick="checkAnswer(this, 'Inércia')">Aceleração</button>
+        <button onclick="checkAnswer(this, 'Inércia')">Força</button>
+        <button onclick="checkAnswer(this, 'Inércia')">Inércia</button>
       </div>
     </div>
 
     <div class="exercise">
-      <p>2) Qual o valor de y em: 3y + 2 = y + 8</p>
+      <p>2) Se uma força de 50 N é aplicada a um corpo de 5 kg, qual é a sua aceleração?</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '3')">3</button>
-        <button onclick="checkAnswer(this, '3')">2</button>
-        <button onclick="checkAnswer(this, '3')">5</button>
+        <button onclick="checkAnswer(this, '10 m/s²')">10 m/s²</button>
+        <button onclick="checkAnswer(this, '10 m/s²')">250 m/s²</button>
+        <button onclick="checkAnswer(this, '10 m/s²')">0.1 m/s²</button>
       </div>
     </div>
 
     <div class="exercise">
-      <p>3) Se 5(a - 1) = 20, qual o valor de 'a'?</p>
+      <p>3) A lei da "Ação e Reação" é a:</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '5')">4</button>
-        <button onclick="checkAnswer(this, '5')">5</button>
-        <button onclick="checkAnswer(this, '5')">6</button>
+        <button onclick="checkAnswer(this, '3ª Lei de Newton')">1ª Lei de Newton</button>
+        <button onclick="checkAnswer(this, '3ª Lei de Newton')">2ª Lei de Newton</button>
+        <button onclick="checkAnswer(this, '3ª Lei de Newton')">3ª Lei de Newton</button>
       </div>
     </div>
 

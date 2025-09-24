@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aula de Matemática – Equações Lineares</title>
+  <title>Aula de Física – Termodinâmica</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { background-color: #f4f4f4; color: #333; transition: background-color 0.3s, color 0.3s; padding-top: 100px; }
@@ -45,53 +45,51 @@
   </header>
 
   <div class="main-container">
-    <h1>Aula de Matemática – Equações Lineares</h1>
+    <h1>Aula de Física – Termodinâmica</h1>
 
-    <h2>O que são Equações Lineares?</h2>
-    <p>Uma equação linear, ou equação de primeiro grau, é uma sentença matemática que estabelece uma igualdade entre duas expressões, envolvendo uma ou mais incógnitas com expoente 1. O objetivo é encontrar o valor da incógnita que torna a igualdade verdadeira.</p>
+    <h2>O que é Termodinâmica?</h2>
+    <p>A Termodinâmica é o ramo da física que estuda as relações entre calor, trabalho e energia. Ela descreve como a energia térmica é convertida em outras formas de energia e como isso afeta a matéria.</p>
 
-    <h2>Como Resolver</h2>
-    <p>O método principal é isolar a incógnita (geralmente 'x') em um dos lados da equação. Para isso, aplicamos operações inversas em ambos os lados da igualdade.</p>
+    <h2>Leis da Termodinâmica</h2>
     <ul>
-      <li>Se um número está somando, ele passa para o outro lado subtraindo.</li>
-      <li>Se está subtraindo, passa somando.</li>
-      <li>Se está multiplicando, passa dividindo.</li>
-      <li>Se está dividindo, passa multiplicando.</li>
+      <li><strong>Lei Zero:</strong> Se dois corpos estão em equilíbrio térmico com um terceiro, eles estão em equilíbrio térmico entre si.</li>
+      <li><strong>Primeira Lei:</strong> É o princípio da conservação de energia. A variação da energia interna de um sistema é a diferença entre o calor trocado e o trabalho realizado (<code>ΔU = Q - W</code>).</li>
+      <li><strong>Segunda Lei:</strong> Afirma que a entropia (desordem) do universo sempre tende a aumentar. O calor não flui espontaneamente de um corpo frio para um corpo quente.</li>
     </ul>
 
-    <h2>Exemplo</h2>
-    <p>Resolvendo a equação <code>3x - 5 = 10</code>:</p>
-    <p>1. Some 5 aos dois lados: <code>3x = 10 + 5</code></p>
-    <p>2. Simplifique: <code>3x = 15</code></p>
-    <p>3. Divida os dois lados por 3: <code>x = 15 / 3</code></p>
-    <p>4. Resultado: <code>x = 5</code></p>
+    <h2>Conceitos Chave</h2>
+    <ul>
+      <li><strong>Temperatura:</strong> Medida da agitação média das partículas de um corpo.</li>
+      <li><strong>Calor:</strong> Energia térmica em trânsito de um corpo mais quente para um mais frio.</li>
+      <li><strong>Trabalho:</strong> Energia transferida quando uma força atua sobre um objeto, causando deslocamento.</li>
+    </ul>
 
     <h2>Exercícios Interativos</h2>
 
     <div class="exercise">
-      <p>1) Resolva: 2x - 4 = 10</p>
+      <p>1) A Primeira Lei da Termodinâmica é uma reafirmação de qual princípio?</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '7')">5</button>
-        <button onclick="checkAnswer(this, '7')">7</button>
-        <button onclick="checkAnswer(this, '7')">14</button>
+        <button onclick="checkAnswer(this, 'Conservação de Energia')">Conservação de Massa</button>
+        <button onclick="checkAnswer(this, 'Conservação de Energia')">Conservação de Energia</button>
+        <button onclick="checkAnswer(this, 'Conservação de Energia')">Aumento da Entropia</button>
       </div>
     </div>
 
     <div class="exercise">
-      <p>2) Qual o valor de y em: 3y + 2 = y + 8</p>
+      <p>2) A medida da "desordem" de um sistema é chamada de:</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '3')">3</button>
-        <button onclick="checkAnswer(this, '3')">2</button>
-        <button onclick="checkAnswer(this, '3')">5</button>
+        <button onclick="checkAnswer(this, 'Entropia')">Entalpia</button>
+        <button onclick="checkAnswer(this, 'Entropia')">Energia Interna</button>
+        <button onclick="checkAnswer(this, 'Entropia')">Entropia</button>
       </div>
     </div>
 
     <div class="exercise">
-      <p>3) Se 5(a - 1) = 20, qual o valor de 'a'?</p>
+      <p>3) Calor é definido como:</p>
       <div class="options">
-        <button onclick="checkAnswer(this, '5')">4</button>
-        <button onclick="checkAnswer(this, '5')">5</button>
-        <button onclick="checkAnswer(this, '5')">6</button>
+        <button onclick="checkAnswer(this, 'Energia térmica em trânsito')">Energia térmica em trânsito</button>
+        <button onclick="checkAnswer(this, 'Energia térmica em trânsito')">A temperatura de um corpo</button>
+        <button onclick="checkAnswer(this, 'Energia térmica em trânsito')">A agitação das moléculas</button>
       </div>
     </div>
 
